@@ -15,13 +15,7 @@ import java.awt.*;
  * | P  P  P  P  P  P  P  P  | i=6
  * | Rk Kt Bi Qu Ki Bi Kt Rk | i=7
  */
-enum Colour {
-    BLACK,WHITE;
-}
 
-enum Pieces {
-    PAWN,KNIGHT,BISHOP,ROOK,QUEEN,KING,NONE
-}
 
 public class Board {
     JPanel boardpanel;
@@ -69,6 +63,23 @@ public class Board {
 
     void setMajorPieces(Cell cells[][],int row) {
 
+        Colour c;
+        if(row==0) {
+            c = Colour.BLACK;
+        } else {
+            c = Colour.WHITE;
+        }
+
+        cells[row][0].setPiece(Pieces.ROOK,c);
+        cells[row][1].setPiece(Pieces.KNIGHT,c);
+        cells[row][2].setPiece(Pieces.BISHOP,c);
+
+        cells[row][3].setPiece(Pieces.QUEEN,c);
+        cells[row][4].setPiece(Pieces.KING,c);
+
+        cells[row][5].setPiece(Pieces.BISHOP,c);
+        cells[row][6].setPiece(Pieces.KNIGHT,c);
+        cells[row][7].setPiece(Pieces.ROOK,c);
     }
 
     void setPawns(Cell cells[][],int row) {
@@ -81,8 +92,7 @@ public class Board {
             }
 
 
-        }
-        else {
+        } else {
 
             //creates 8 white pawns
             for(int i=0 ; i<8 ; i++) {

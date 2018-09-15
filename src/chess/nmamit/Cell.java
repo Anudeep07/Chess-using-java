@@ -1,5 +1,9 @@
 package chess.nmamit;
 
+import chess.nmamit.pieces.Pawn;
+import chess.nmamit.pieces.Piece;
+import chess.nmamit.pieces.Rook;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -39,17 +43,23 @@ public class Cell {
                 case PAWN:
 
                     cellpiece = new Pawn(c);
-                    setImage();
-
+                    setImage("P");
                     break;
+
+                case ROOK:
+
+                    cellpiece = new Rook(c);
+                    setImage("R");
+                    break;
+
             }
     }
 
-    void setImage() {
+    void setImage(String S) {
 
-        if(cellpiece.pieceimage != null)
-            cellbutton.setIcon(cellpiece.pieceimage);
+        if(cellpiece.getPieceImage() != null)
+            cellbutton.setIcon(cellpiece.getPieceImage());
         else
-            cellbutton.setText("P");
+            cellbutton.setText(S);
     }
 }
