@@ -9,9 +9,11 @@ public class Player {
     JLabel playername;
     JButton issuedraw;
     JButton resign;
+    Colour c;
 
-    public Player(String pname) {
+    public Player(String pname, Colour c) {
         name = pname;
+        this.c = c;
 
         createPlayerPanel();
     }
@@ -27,9 +29,13 @@ public class Player {
         issuedraw = new JButton("Draw");
         resign = new JButton("Resign");
 
+
+
         playerpanel.add(issuedraw);
         playerpanel.add(resign);
 
         playerpanel.setVisible(true);
     }
+
+
 }

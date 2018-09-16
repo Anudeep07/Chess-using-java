@@ -12,4 +12,11 @@ public class Coordinates {
         this.y = y;
     }
 
+    Colour getCoordinateColour() {
+        if((x+y)%2 == 0) {
+            return Colour.WHITE;
+        } else {
+            return Colour.BLACK;
+        }
+    }
 }

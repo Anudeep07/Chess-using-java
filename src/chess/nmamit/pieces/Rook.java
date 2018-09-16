@@ -7,18 +7,16 @@ public class Rook extends Piece {
 
     public Rook(Colour c) {
 
-        //black pawn
         if(c == Colour.BLACK) {
             pieceimage = createImageIcon("img/BlackRook.png");
             piececolour = Colour.BLACK;
             alivestatus = true;
         }
-        else {  //white pawn
+        else {
             pieceimage = createImageIcon("img/WhiteRook.png");
             piececolour = Colour.WHITE;
             alivestatus = true;
         }
-
     }
 
     @Override

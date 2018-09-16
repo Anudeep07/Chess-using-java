@@ -2,6 +2,8 @@ package chess.nmamit;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /*
  *This class generates a board
@@ -19,14 +21,19 @@ import java.awt.*;
 
 public class Board {
     JPanel boardpanel;
+    static boolean highlighted;
+    static JButton highlightedbutton;
+    static Color originalcellcolour;
+
 
 
     Board() {
         boardpanel = new JPanel();
+        highlighted = false;
+        highlightedbutton = null;
 
         boardpanel.setSize(800, 800);
         boardpanel.setLayout(new GridLayout(8, 8));
-
 
         Cell cells[][] = new Cell[8][8];
 
@@ -39,14 +46,13 @@ public class Board {
         for (int i = 0; i < 8; i++) {
 
             for (int j = 0; j < 8; j++) {
-                cells[i][j] = new Cell(i,j);           //creating cell object
 
+                cells[i][j] = new Cell(i,j);              //creating cell object
 
-
-                if ((i + j) % 2 == 0) {
-                    cells[i][j].setBackgroundColour(255, 255, 255);
+                if (cells[i][j].cellcolour == Colour.WHITE) {
+                    cells[i][j].setBackgroundColour(240, 250, 250);
                 } else {
-                    cells[i][j].setBackgroundColour(120, 180, 240);
+                    cells[i][j].setBackgroundColour(95, 170, 255);
                 }
 
                 cells[i][j].addToJPanel(boardpanel);
@@ -100,4 +106,33 @@ public class Board {
             }
         }
     }
+
+    static void makeSelectedCellHighlighted(Cell c) {
+
+        if(!highlighted) {
+            highlightedbutton = c.cellbutton;                                       //Cell's button generated the event.
+            originalcellcolour = highlightedbutton.getBackground();
+            highlightedbutton.setBackground(new Color(181, 255, 172));
+
+            highlighted = true;
+
+        } else {
+
+            /*
+             *This occurs when user had already clicked a button and he clicks some other button.
+             */
+
+            highlightedbutton.setBackground(originalcellcolour);    //change previously selected button to the original cell colour
+
+            highlightedbutton = c.cellbutton;  //now highlightedbutton contains the new selected button
+
+
+
+            originalcellcolour = highlightedbutton.getBackground();
+            highlightedbutton.setBackground(new Color(181, 255, 172));
+
+            highlighted = true;
+        }
+    }
+
 }
