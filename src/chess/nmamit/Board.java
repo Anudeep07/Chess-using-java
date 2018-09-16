@@ -52,7 +52,7 @@ public class Board {
                 if (cells[i][j].cellcolour == Colour.WHITE) {
                     cells[i][j].setBackgroundColour(240, 250, 250);
                 } else {
-                    cells[i][j].setBackgroundColour(95, 170, 255);
+                    cells[i][j].setBackgroundColour(74, 163, 230);
                 }
 
                 cells[i][j].addToJPanel(boardpanel);
@@ -112,7 +112,7 @@ public class Board {
         if(!highlighted) {
             highlightedbutton = c.cellbutton;                                       //Cell's button generated the event.
             originalcellcolour = highlightedbutton.getBackground();
-            highlightedbutton.setBackground(new Color(181, 255, 172));
+            highlightedbutton.setBackground(new Color(237, 253, 153));
 
             highlighted = true;
 
@@ -129,7 +129,7 @@ public class Board {
 
 
             originalcellcolour = highlightedbutton.getBackground();
-            highlightedbutton.setBackground(new Color(181, 255, 172));
+            highlightedbutton.setBackground(new Color(237, 253, 153));
 
             highlighted = true;
         }
