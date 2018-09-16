@@ -122,6 +122,7 @@ public class Board {
                 highlighted = true;
 
                 //need to call possiblemoves
+
             }
 
         } else {
@@ -146,6 +147,10 @@ public class Board {
 
             } else {
 
+                /*
+                 *Already highlighted square exists and we clicked on a square that contains a piece.
+                 */
+
                 highlightedbutton.setBackground(originalcellcolour);    //change previously selected button to the original cell colour
 
                 highlightedbutton = c.cellbutton;  //now highlightedbutton contains the new selected button
@@ -156,6 +161,8 @@ public class Board {
                 highlightedbutton.setBackground(new Color(237, 253, 153));
 
                 highlighted = true;
+
+                //need to call possiblemoves
             }
 
 
