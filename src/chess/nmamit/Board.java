@@ -31,6 +31,7 @@ public class Board {
         boardpanel = new JPanel();
         highlighted = false;
         highlightedbutton = null;
+        originalcellcolour = null;
 
         boardpanel.setSize(800, 800);
         boardpanel.setLayout(new GridLayout(8, 8));
@@ -109,29 +110,55 @@ public class Board {
 
     static void makeSelectedCellHighlighted(Cell c) {
 
-        if(!highlighted) {
-            highlightedbutton = c.cellbutton;                                       //Cell's button generated the event.
-            originalcellcolour = highlightedbutton.getBackground();
-            highlightedbutton.setBackground(new Color(237, 253, 153));
 
-            highlighted = true;
+
+        if(!highlighted ) {
+
+            if(c.cellpiece != null) {
+                highlightedbutton = c.cellbutton;                                       //Cell's button generated the event.
+                originalcellcolour = highlightedbutton.getBackground();
+                highlightedbutton.setBackground(new Color(237, 253, 153));
+
+                highlighted = true;
+
+                //need to call possiblemoves
+            }
 
         } else {
-
             /*
              *This occurs when user had already clicked a button and he clicks some other button.
              */
 
-            highlightedbutton.setBackground(originalcellcolour);    //change previously selected button to the original cell colour
+            if(c.cellpiece == null) {
 
-            highlightedbutton = c.cellbutton;  //now highlightedbutton contains the new selected button
+                //a square containing a piece is highlighted and we clicked on a square with no piece, we have 2 options now: can select a square
+                //                                                                                                              that belongs to the
+                //                                                                                                              set of coordinates
+                //                                                                or can select some other square
+
+                // if i selected a square that doesn't belong to set of coordinates that piece can go to, then unhighlight the highlighted square
+
+                highlightedbutton.setBackground(originalcellcolour);
+
+                highlightedbutton = null;
+                originalcellcolour = null;
+                highlighted = false;
+
+            } else {
+
+                highlightedbutton.setBackground(originalcellcolour);    //change previously selected button to the original cell colour
+
+                highlightedbutton = c.cellbutton;  //now highlightedbutton contains the new selected button
 
 
 
-            originalcellcolour = highlightedbutton.getBackground();
-            highlightedbutton.setBackground(new Color(237, 253, 153));
+                originalcellcolour = highlightedbutton.getBackground();
+                highlightedbutton.setBackground(new Color(237, 253, 153));
 
-            highlighted = true;
+                highlighted = true;
+            }
+
+
         }
     }
 
