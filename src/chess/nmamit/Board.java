@@ -21,9 +21,11 @@ import java.awt.event.ActionListener;
 
 public class Board {
     JPanel boardpanel;
+    static Colour turn;
     static boolean highlighted;
     static JButton highlightedbutton;
     static Color originalcellcolour;
+    Cell cells[][];
 
 
 
@@ -32,11 +34,13 @@ public class Board {
         highlighted = false;
         highlightedbutton = null;
         originalcellcolour = null;
+        turn = Colour.WHITE;
+
 
         boardpanel.setSize(800, 800);
         boardpanel.setLayout(new GridLayout(8, 8));
 
-        Cell cells[][] = new Cell[8][8];
+        cells = new Cell[8][8];
 
         drawBoardAndAddToPanel(cells);
 
@@ -49,6 +53,8 @@ public class Board {
             for (int j = 0; j < 8; j++) {
 
                 cells[i][j] = new Cell(i,j);              //creating cell object
+
+
 
                 if (cells[i][j].cellcolour == Colour.WHITE) {
                     cells[i][j].setBackgroundColour(240, 250, 250);
@@ -108,13 +114,19 @@ public class Board {
         }
     }
 
+
+
+    static void unhighlightPreviousPressed(Cell c) {
+        highlightedbutton.setBackground(originalcellcolour);
+        highlightedbutton = null;
+        originalcellcolour = null;
+        highlighted = false;
+
+    }
+
     static void makeSelectedCellHighlighted(Cell c) {
 
-
-
-        if(!highlighted ) {
-
-            if(c.cellpiece != null) {
+            if(c.cellpiece != null && correctColour(c)) {
                 highlightedbutton = c.cellbutton;                                       //Cell's button generated the event.
                 originalcellcolour = highlightedbutton.getBackground();
                 highlightedbutton.setBackground(new Color(237, 253, 153));
@@ -122,13 +134,10 @@ public class Board {
                 highlighted = true;
 
                 //need to call possiblemoves
-
+                //if he makes a move, change turn
             }
-
-        } else {
-            /*
-             *This occurs when user had already clicked a button and he clicks some other button.
-             */
+/*
+        else {
 
             if(c.cellpiece == null) {
 
@@ -147,26 +156,41 @@ public class Board {
 
             } else {
 
-                /*
-                 *Already highlighted square exists and we clicked on a square that contains a piece.
-                 */
-
-                highlightedbutton.setBackground(originalcellcolour);    //change previously selected button to the original cell colour
-
-                highlightedbutton = c.cellbutton;  //now highlightedbutton contains the new selected button
+                if(correctColour(c)) {
 
 
+                    highlightedbutton.setBackground(originalcellcolour);    //change previously selected button to the original cell colour
 
-                originalcellcolour = highlightedbutton.getBackground();
-                highlightedbutton.setBackground(new Color(237, 253, 153));
+                    highlightedbutton = c.cellbutton;  //now highlightedbutton contains the new selected button
 
-                highlighted = true;
 
-                //need to call possiblemoves
+
+                    originalcellcolour = highlightedbutton.getBackground();
+                    highlightedbutton.setBackground(new Color(237, 253, 153));
+
+                    highlighted = true;
+
+                    //need to call possiblemoves
+                } else {
+                    //we clicked on a piece of opposite colour
+                    highlightedbutton.setBackground(originalcellcolour);
+
+                    highlightedbutton = null;
+                    originalcellcolour = null;
+                    highlighted = false;
+
+                }
             }
 
 
-        }
+        }*/
+    }
+
+    static boolean correctColour(Cell c) {
+        if(turn == c.cellpiece.piececolour)
+            return true;
+        else
+            return false;
     }
 
 }

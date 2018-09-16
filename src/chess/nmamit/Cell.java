@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static chess.nmamit.Board.makeSelectedCellHighlighted;
+import static chess.nmamit.Board.*;
 
 /*
  *This cell represents each cell in the chess board
@@ -95,7 +95,27 @@ public class Cell implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
 
-        makeSelectedCellHighlighted(this);
+        if(!highlighted) {
+            makeSelectedCellHighlighted(this);
+        } else {
+            /*
+             *This occurs when user had already clicked a button and he clicks some other button.
+             *
+             * 1. he presses a button within the possible coordinates
+             * 2. he presses a button other than possible coordinates
+             *      a. he presses a button of same colour piece, then unhighlight previous pressed and highlight new one
+             *      b. he presses some other invalid button, unhighlight the previous pressed button
+             */
+
+            //other than possible coordinates
+
+            unhighlightPreviousPressed(this);
+
+            if(cellpiece != null && correctColour(this)) {
+                makeSelectedCellHighlighted(this);
+            }
+        }
+
 
     }
 

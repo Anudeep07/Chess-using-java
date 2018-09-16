@@ -12,6 +12,7 @@ public class Pawn extends Piece {
             pieceimage = createImageIcon("img/BlackPawn.png");
             piececolour = Colour.BLACK;
             alivestatus = true;
+            possiblecoordinates = new Coordinates[4];   //1 up, 2 up, left diagonal, right diagonal
         }
         else {  //white pawn
             pieceimage = createImageIcon("img/WhitePawn.png");

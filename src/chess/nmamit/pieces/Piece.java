@@ -10,8 +10,9 @@ import java.io.File;
 public abstract class Piece {
 
     ImageIcon pieceimage;
-    Colour piececolour;
+    public Colour piececolour;
     boolean alivestatus;
+    public Coordinates[] possiblecoordinates;
 
 
     abstract Coordinates[] possibleMoves(Coordinates c);
