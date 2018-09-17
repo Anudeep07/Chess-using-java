@@ -1,6 +1,7 @@
 package chess.nmamit;
 
 import javax.swing.*;
+import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -133,7 +134,7 @@ public class Board {
 
     static void unhighlightPreviousPressed(Cell c) {
 
-        //if condition only for now
+        //if condition only for now till we implement all the possiblemoves
         if(highlightedcell.cellpiece.possiblecoordinates != null)
             for(Coordinates coordinates : highlightedcell.cellpiece.possiblecoordinates) {
                 cells[coordinates.x][coordinates.y].cellbutton.setBorder(BorderFactory.createEmptyBorder());
@@ -154,14 +155,14 @@ public class Board {
                 highlightedcell = c;
                 highlightedbutton = c.cellbutton;                                       //Cell's button generated the event.
                 originalcellcolour = highlightedbutton.getBackground();
-                highlightedbutton.setBackground(new Color(237, 253, 153));
+                highlightedbutton.setBackground(new Color(228, 230, 11));
 
                 highlighted = true;
 
-                //if condition only for now
+                //if condition only for now till we implement all the possiblemoves
                 if(c.cellpiece.possiblecoordinates != null)
                     for(Coordinates coordinates : c.cellpiece.possiblecoordinates) {
-                        cells[coordinates.x][coordinates.y].cellbutton.setBorder(BorderFactory.createLineBorder(Color.red));
+                        cells[coordinates.x][coordinates.y].cellbutton.setBorder(BorderFactory.createMatteBorder(5,5,5,5,new Color(228, 230, 11)));
                     }
 
                 //need to call possiblemoves
