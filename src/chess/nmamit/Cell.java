@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import static chess.nmamit.Board.*;
 
@@ -95,7 +96,7 @@ public class Cell implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
 
-        if(!highlighted) {
+        if (!highlighted) {
             makeSelectedCellHighlighted(this);
         } else {
             /*
@@ -107,16 +108,26 @@ public class Cell implements ActionListener {
              *      b. he presses some other invalid button, unhighlight the previous pressed button
              */
 
+
             //other than possible coordinates
+
 
             unhighlightPreviousPressed(this);
 
-            if(cellpiece != null && correctColour(this)) {
+            if (cellpiece != null && correctColour(this)) {
                 makeSelectedCellHighlighted(this);
             }
         }
 
 
+    }
+
+    public int getCellRow() {
+        return cellposition.x;
+    }
+
+    public int getCellCol() {
+        return cellposition.y;
     }
 
 }

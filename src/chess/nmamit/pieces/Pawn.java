@@ -1,7 +1,10 @@
 package chess.nmamit.pieces;
 
+import chess.nmamit.Cell;
 import chess.nmamit.Colour;
 import chess.nmamit.Coordinates;
+
+import java.util.ArrayList;
 
 public class Pawn extends Piece {
 
@@ -12,7 +15,6 @@ public class Pawn extends Piece {
             pieceimage = createImageIcon("img/BlackPawn.png");
             piececolour = Colour.BLACK;
             alivestatus = true;
-            possiblecoordinates = new Coordinates[4];   //1 up, 2 up, left diagonal, right diagonal
         }
         else {  //white pawn
             pieceimage = createImageIcon("img/WhitePawn.png");
@@ -23,9 +25,11 @@ public class Pawn extends Piece {
     }
 
     @Override
-    Coordinates[] possibleMoves(Coordinates c) {
+    public ArrayList<Coordinates> possibleMoves(Cell c) {
 
-        Coordinates[] x = new Coordinates[2];
+        ArrayList<Coordinates> x = new ArrayList<Coordinates>();
+
+
         return x;
     }
 

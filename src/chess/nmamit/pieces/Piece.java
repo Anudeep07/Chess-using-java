@@ -1,10 +1,12 @@
 package chess.nmamit.pieces;
 
+import chess.nmamit.Cell;
 import chess.nmamit.Colour;
 import chess.nmamit.Coordinates;
 
 import javax.swing.*;
 import java.io.File;
+import java.util.ArrayList;
 
 
 public abstract class Piece {
@@ -12,10 +14,10 @@ public abstract class Piece {
     ImageIcon pieceimage;
     public Colour piececolour;
     boolean alivestatus;
-    public Coordinates[] possiblecoordinates;
+    public ArrayList<Coordinates> possiblecoordinates;
 
 
-    abstract Coordinates[] possibleMoves(Coordinates c);
+    public abstract ArrayList<Coordinates> possibleMoves(Cell c);
 
     ImageIcon createImageIcon(String path) {
 

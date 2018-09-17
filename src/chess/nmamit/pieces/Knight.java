@@ -1,7 +1,12 @@
 package chess.nmamit.pieces;
 
+import chess.nmamit.Cell;
 import chess.nmamit.Colour;
 import chess.nmamit.Coordinates;
+
+import java.util.ArrayList;
+
+import static chess.nmamit.Board.sameColourPiece;
 
 public class Knight extends Piece {
 
@@ -20,7 +25,53 @@ public class Knight extends Piece {
     }
 
     @Override
-    Coordinates[] possibleMoves(Coordinates c) {
-        return new Coordinates[0];
+    public ArrayList<Coordinates> possibleMoves(Cell c) {
+
+        ArrayList<Coordinates> possiblecoordinates = new ArrayList<Coordinates>();
+        int cellrow = c.getCellRow();
+        int cellcol = c.getCellCol();
+
+        if(cellrow-1 >= 0) {
+            if(cellcol-2 >= 0 && !sameColourPiece(c,cellrow-1,cellcol-2)) {
+                possiblecoordinates.add(new Coordinates(cellrow-1,cellcol-2));
+            }
+
+            if(cellcol+2 <= 7 && !sameColourPiece(c,cellrow-1,cellcol+2)) {
+                possiblecoordinates.add(new Coordinates(cellrow-1,cellcol+2));
+            }
+        }
+
+        if(cellrow-2 >= 0) {
+            if(cellcol-1 >= 0 && !sameColourPiece(c,cellrow-2,cellcol-1)) {
+                possiblecoordinates.add(new Coordinates(cellrow-2,cellcol-1));
+            }
+
+            if(cellcol+1 <= 7 && !sameColourPiece(c,cellrow-2,cellcol+1)) {
+                possiblecoordinates.add(new Coordinates(cellrow-2, cellcol+1));
+            }
+        }
+
+        if(cellrow+1 <= 7) {
+            if(cellcol-2 >= 0 && !sameColourPiece(c,cellrow+1,cellcol-2)) {
+                possiblecoordinates.add(new Coordinates(cellrow+1,cellcol-2));
+            }
+
+            if(cellcol+2 <= 7 && !sameColourPiece(c,cellrow+1,cellcol+2)) {
+                possiblecoordinates.add(new Coordinates(cellrow+1,cellcol+2));
+            }
+        }
+
+        if(cellrow+2 <= 7) {
+            if(cellcol-1 >= 0 && !sameColourPiece(c,cellrow+2,cellcol-1)) {
+                possiblecoordinates.add(new Coordinates(cellrow+2,cellcol-1));
+            }
+
+            if(cellcol+1 <= 7 && !sameColourPiece(c,cellrow+2,cellcol+1)) {
+                possiblecoordinates.add(new Coordinates(cellrow+2, cellcol+1));
+            }
+        }
+
+
+        return possiblecoordinates;
     }
 }

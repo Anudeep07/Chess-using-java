@@ -24,8 +24,9 @@ public class Board {
     static Colour turn;
     static boolean highlighted;
     static JButton highlightedbutton;
+    static Cell highlightedcell;
     static Color originalcellcolour;
-    Cell cells[][];
+    static Cell cells[][];
 
 
 
@@ -52,8 +53,7 @@ public class Board {
 
             for (int j = 0; j < 8; j++) {
 
-                cells[i][j] = new Cell(i,j);              //creating cell object
-
+                cells[i][j] = new Cell(i, j);              //creating cell object
 
 
                 if (cells[i][j].cellcolour == Colour.WHITE) {
@@ -65,16 +65,31 @@ public class Board {
                 cells[i][j].addToJPanel(boardpanel);
             }
 
-            if(i==0 || i==7) {
-                setMajorPieces(cells,i);
+            if (i == 0 || i == 7) {
+                setMajorPieces( i);
+            } else if (i == 1 || i == 6) {
+                setPawns(i);
             }
-            else if(i==1 || i==6) {
-                setPawns(cells,i);
+        }
+
+        generateAllPossibleMoves();
+    }
+
+    void generateAllPossibleMoves() {
+        for(int i=0 ; i<2 ; i++) {
+            for(int j=0 ; j<8 ; j++) {
+                cells[i][j].cellpiece.possiblecoordinates = cells[i][j].cellpiece.possibleMoves(cells[i][j]);
+            }
+        }
+
+        for(int i=6 ; i<8 ; i++) {
+            for(int j=0 ; j<8 ; j++) {
+                cells[i][j].cellpiece.possiblecoordinates = cells[i][j].cellpiece.possibleMoves(cells[i][j]);
             }
         }
     }
 
-    void setMajorPieces(Cell cells[][],int row) {
+    void setMajorPieces(int row) {
 
         Colour c;
         if(row==0) {
@@ -95,7 +110,7 @@ public class Board {
         cells[row][7].setPiece(Pieces.ROOK,c);
     }
 
-    void setPawns(Cell cells[][],int row) {
+    void setPawns(int row) {
 
         if(row==1) {
 
@@ -117,21 +132,37 @@ public class Board {
 
 
     static void unhighlightPreviousPressed(Cell c) {
+
+        //if condition only for now
+        if(highlightedcell.cellpiece.possiblecoordinates != null)
+            for(Coordinates coordinates : highlightedcell.cellpiece.possiblecoordinates) {
+                cells[coordinates.x][coordinates.y].cellbutton.setBorder(BorderFactory.createEmptyBorder());
+            }
+
         highlightedbutton.setBackground(originalcellcolour);
+        highlightedcell = null;
         highlightedbutton = null;
         originalcellcolour = null;
         highlighted = false;
+
 
     }
 
     static void makeSelectedCellHighlighted(Cell c) {
 
             if(c.cellpiece != null && correctColour(c)) {
+                highlightedcell = c;
                 highlightedbutton = c.cellbutton;                                       //Cell's button generated the event.
                 originalcellcolour = highlightedbutton.getBackground();
                 highlightedbutton.setBackground(new Color(237, 253, 153));
 
                 highlighted = true;
+
+                //if condition only for now
+                if(c.cellpiece.possiblecoordinates != null)
+                    for(Coordinates coordinates : c.cellpiece.possiblecoordinates) {
+                        cells[coordinates.x][coordinates.y].cellbutton.setBorder(BorderFactory.createLineBorder(Color.red));
+                    }
 
                 //need to call possiblemoves
                 //if he makes a move, change turn
@@ -192,5 +223,22 @@ public class Board {
         else
             return false;
     }
+
+    public static boolean sameColourPiece(Cell c, int newrow,int newcol) {
+
+        if(cells[newrow][newcol].cellpiece == null)
+            return false;
+
+        Colour originalpiececolour = c.cellpiece.piececolour;
+        Colour newpiececolour = cells[newrow][newcol].cellpiece.piececolour;
+
+        if(originalpiececolour == newpiececolour) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
 
 }

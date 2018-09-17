@@ -1,7 +1,10 @@
 package chess.nmamit.pieces;
 
+import chess.nmamit.Cell;
 import chess.nmamit.Colour;
 import chess.nmamit.Coordinates;
+
+import java.util.ArrayList;
 
 public class Bishop extends Piece {
     public Bishop(Colour c) {
@@ -19,7 +22,8 @@ public class Bishop extends Piece {
     }
 
     @Override
-    Coordinates[] possibleMoves(Coordinates c) {
-        return new Coordinates[0];
+    public ArrayList<Coordinates> possibleMoves(Cell c) {
+
+        return null;
     }
 }
