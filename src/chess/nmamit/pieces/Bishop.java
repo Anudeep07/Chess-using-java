@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class Bishop extends Piece {
     public Bishop(Colour c) {
 
+        piecename = "bishop";
         if(c == Colour.BLACK) {
             pieceimage = createImageIcon("img/BlackBishop.png");
             piececolour = Colour.BLACK;

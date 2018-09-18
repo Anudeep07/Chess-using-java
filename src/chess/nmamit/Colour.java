@@ -1,5 +1,5 @@
 package chess.nmamit;
 
 public enum Colour {
-    BLACK,WHITE;
+    BLACK,WHITE,NONE;
 }

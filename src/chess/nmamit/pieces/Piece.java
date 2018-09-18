@@ -12,9 +12,10 @@ import java.util.ArrayList;
 public abstract class Piece {
 
     ImageIcon pieceimage;
+    public String piecename;
     public Colour piececolour;
     boolean alivestatus;
-    public ArrayList<Coordinates> possiblecoordinates;
+
 
 
     public abstract ArrayList<Coordinates> possibleMoves(Cell c);

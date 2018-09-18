@@ -22,12 +22,14 @@ public class Cell implements ActionListener {
     Piece cellpiece;
     Coordinates cellposition;
     Colour cellcolour;
+    public ArrayList<Coordinates> possiblecoordinates;
 
     Cell(int row, int column) {
         cellbutton = new JButton();
         cellpiece = null;
         cellposition = new Coordinates(row,column);
         cellcolour = cellposition.getCoordinateColour();
+        possiblecoordinates = null;
 
         cellbutton.setFocusPainted(false);              //this won't show a border around the icon of the button when its pressed.
         cellbutton.addActionListener(this);
@@ -130,4 +132,24 @@ public class Cell implements ActionListener {
         return cellposition.y;
     }
 
+    Coordinates subtract(Cell c1) {
+        int row = this.getCellRow() - c1.getCellRow();
+        int col = this.getCellCol() - c1.getCellCol();
+
+        return new Coordinates(row,col);
+    }
+
+    public String getPieceName() {
+        if(cellpiece == null)
+            return "";
+        else
+            return cellpiece.piecename;
+    }
+
+    public Colour getPieceColour() {
+        if(cellpiece == null)
+            return Colour.NONE;
+        else
+            return cellpiece.piececolour;
+    }
 }

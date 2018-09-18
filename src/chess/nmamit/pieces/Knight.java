@@ -6,12 +6,14 @@ import chess.nmamit.Coordinates;
 
 import java.util.ArrayList;
 
+import static chess.nmamit.Board.isKingAttackedIfPieceRemoved;
 import static chess.nmamit.Board.sameColourPiece;
 
 public class Knight extends Piece {
 
     public Knight(Colour c) {
 
+        piecename = "knight";
         if(c == Colour.BLACK) {
             pieceimage = createImageIcon("img/BlackKnight.png");
             piececolour = Colour.BLACK;
@@ -26,6 +28,11 @@ public class Knight extends Piece {
 
     @Override
     public ArrayList<Coordinates> possibleMoves(Cell c) {
+
+        if(isKingAttackedIfPieceRemoved(c)) {
+            //the piece is pinned
+            return null;
+        }
 
         ArrayList<Coordinates> possiblecoordinates = new ArrayList<Coordinates>();
         int cellrow = c.getCellRow();

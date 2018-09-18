@@ -10,6 +10,7 @@ public class Rook extends Piece {
 
     public Rook(Colour c) {
 
+        piecename = "rook";
         if(c == Colour.BLACK) {
             pieceimage = createImageIcon("img/BlackRook.png");
             piececolour = Colour.BLACK;

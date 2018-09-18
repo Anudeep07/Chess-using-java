@@ -6,6 +6,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import static java.lang.Math.abs;
+
 /*
  *This class generates a board
  *
@@ -28,8 +30,8 @@ public class Board {
     static Cell highlightedcell;
     static Color originalcellcolour;
     static Cell cells[][];
-
-
+    static Cell whitekingcell;
+    static Cell blackkingcell;
 
     Board() {
         boardpanel = new JPanel();
@@ -73,19 +75,21 @@ public class Board {
             }
         }
 
+        whitekingcell = cells[7][4];
+        blackkingcell = cells[0][4];
         generateAllPossibleMoves();
     }
 
     void generateAllPossibleMoves() {
         for(int i=0 ; i<2 ; i++) {
             for(int j=0 ; j<8 ; j++) {
-                cells[i][j].cellpiece.possiblecoordinates = cells[i][j].cellpiece.possibleMoves(cells[i][j]);
+                cells[i][j].possiblecoordinates = cells[i][j].cellpiece.possibleMoves(cells[i][j]);
             }
         }
 
         for(int i=6 ; i<8 ; i++) {
             for(int j=0 ; j<8 ; j++) {
-                cells[i][j].cellpiece.possiblecoordinates = cells[i][j].cellpiece.possibleMoves(cells[i][j]);
+                cells[i][j].possiblecoordinates = cells[i][j].cellpiece.possibleMoves(cells[i][j]);
             }
         }
     }
@@ -105,6 +109,8 @@ public class Board {
 
         cells[row][3].setPiece(Pieces.QUEEN,c);
         cells[row][4].setPiece(Pieces.KING,c);
+
+
 
         cells[row][5].setPiece(Pieces.BISHOP,c);
         cells[row][6].setPiece(Pieces.KNIGHT,c);
@@ -134,9 +140,9 @@ public class Board {
 
     static void unhighlightPreviousPressed(Cell c) {
 
-        //if condition only for now till we implement all the possiblemoves
-        if(highlightedcell.cellpiece.possiblecoordinates != null)
-            for(Coordinates coordinates : highlightedcell.cellpiece.possiblecoordinates) {
+        //possible moves' background is removed here
+        if(highlightedcell.possiblecoordinates != null)
+            for(Coordinates coordinates : highlightedcell.possiblecoordinates) {
                 cells[coordinates.x][coordinates.y].cellbutton.setBorder(BorderFactory.createEmptyBorder());
             }
 
@@ -159,13 +165,12 @@ public class Board {
 
                 highlighted = true;
 
-                //if condition only for now till we implement all the possiblemoves
-                if(c.cellpiece.possiblecoordinates != null)
-                    for(Coordinates coordinates : c.cellpiece.possiblecoordinates) {
+
+                //all possible moves' background is updated here
+                if(c.possiblecoordinates != null)
+                    for(Coordinates coordinates : c.possiblecoordinates) {
                         cells[coordinates.x][coordinates.y].cellbutton.setBorder(BorderFactory.createMatteBorder(5,5,5,5,new Color(228, 230, 11)));
                     }
-
-                //need to call possiblemoves
                 //if he makes a move, change turn
             }
 /*
@@ -238,6 +243,151 @@ public class Board {
         } else {
             return false;
         }
+    }
+
+    public static boolean isKingAttackedIfPieceRemoved(Cell originalcell) {
+
+        Coordinates path;
+
+        if(originalcell.cellpiece.piececolour == Colour.WHITE) {
+
+            //piece is white
+            path = originalcell.subtract(whitekingcell);
+        } else {
+            //piece is black
+            path = originalcell.subtract(blackkingcell);
+        }
+
+
+        int row = path.x;
+        int col = path.y;
+
+        int originalrow = originalcell.getCellRow();
+        int originalcol = originalcell.getCellCol();
+        Colour originalpiececolour = originalcell.getPieceColour();
+
+        if(row == 0 || col == 0 || (abs(row) == abs(col))){
+
+            if(row == 0) {
+                if (col < 0) {
+                    for (int j = originalcol; j < 8; j++) {
+
+                        if (cells[originalrow][j].getPieceColour() == originalpiececolour)
+                            return false;
+                        if (cells[originalrow][j].getPieceName() == "rook" || cells[originalrow][j].getPieceName() == "queen")
+                            return true;
+
+
+                    }
+                    return false;
+                }
+
+                if (col > 0) {
+                    for (int j = originalcol; j >= 0; j--) {
+
+                        if (cells[originalrow][j].getPieceColour() == originalpiececolour)
+                            return false;
+                        if (cells[originalrow][j].getPieceName() == "rook" || cells[originalrow][j].getPieceName() == "queen")
+                            return true;
+
+                    }
+                    return false;
+                }
+            }
+
+            if(col == 0) {
+                if (row < 0) {
+                    for (int j = originalrow; j >= 0 ; j--) {
+
+                        if (cells[j][originalcol].getPieceColour() == originalpiececolour)
+                            return false;
+                        if (cells[j][originalcol].getPieceName() == "rook" || cells[j][originalcol].getPieceName() == "queen")
+                            return true;
+
+
+                    }
+                    return false;
+                }
+
+                if (row > 0) {
+                    for (int j = originalrow ; j < 8 ; j++) {
+
+                        if (cells[j][originalcol].getPieceColour() == originalpiececolour)
+                            return false;
+                        if (cells[j][originalcol].getPieceName() == "rook" || cells[j][originalcol].getPieceName() == "queen")
+                            return true;
+
+                    }
+                    return false;
+                }
+            }
+
+            //abs(row) == abs(col)
+
+            if(row > col) {
+                //(x,-x)
+
+                for(int i=originalrow, j=originalcol ; i<8 && j>=0 ; i++,j--) {
+
+                    if(cells[i][j].getPieceColour() == originalpiececolour)
+                        return false;
+                    if(cells[i][j].getPieceName() == "bishop" || cells[i][j].getPieceName() == "queen")
+                        return true;
+
+                }
+
+                return false;
+            } else {
+                if(col > row) {
+                    //(-x,x)
+
+                    for(int i=originalrow, j=originalcol ; i>=0 && j<8 ; i--,j++) {
+
+                        if(cells[i][j].getPieceColour() == originalpiececolour)
+                            return false;
+                        if(cells[i][j].getPieceName() == "bishop" || cells[i][j].getPieceName() == "queen")
+                            return true;
+
+                    }
+
+                    return false;
+                } else {
+                    //(x,x) or (-x,-x)
+                    if(row < 0) {
+                        //(-x,-x)
+
+                        for(int i=originalrow,j=originalcol ; i>=0 && j>=0 ; i--,j--) {
+
+                            if(cells[i][j].getPieceColour() == originalpiececolour)
+                                return false;
+                            if(cells[i][j].getPieceName() == "bishop" || cells[i][j].getPieceName() == "queen")
+                                return true;
+
+                        }
+                        return false;
+
+                    } else {
+                        //(x,x)
+
+                        for(int i=originalrow,j=originalcol ; i<8 && j<8 ; i++,j++) {
+
+                            if(cells[i][j].getPieceColour() == originalpiececolour)
+                                return false;
+                            if(cells[i][j].getPieceName() == "bishop" || cells[i][j].getPieceName() == "queen")
+                                return true;
+
+                        }
+                        return false;
+
+                    }
+                }
+            }
+
+
+        } else {
+            return false;
+        }
+
     }
 
 

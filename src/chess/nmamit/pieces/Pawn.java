@@ -10,6 +10,7 @@ public class Pawn extends Piece {
 
     public Pawn(Colour c) {
 
+        piecename = "pawn";
         //black pawn
         if(c == Colour.BLACK) {
             pieceimage = createImageIcon("img/BlackPawn.png");
