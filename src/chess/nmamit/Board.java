@@ -52,6 +52,7 @@ public class Board {
     }
 
     void drawBoardAndAddToPanel(Cell cells[][]) {
+
         for (int i = 0; i < 8; i++) {
 
             for (int j = 0; j < 8; j++) {
@@ -77,7 +78,9 @@ public class Board {
 
         whitekingcell = cells[7][4];
         blackkingcell = cells[0][4];
+
         generateAllPossibleMoves();
+
     }
 
     void generateAllPossibleMoves() {
@@ -92,6 +95,8 @@ public class Board {
                 cells[i][j].possiblecoordinates = cells[i][j].cellpiece.possibleMoves(cells[i][j]);
             }
         }
+
+
     }
 
     void setMajorPieces(int row) {
@@ -173,54 +178,6 @@ public class Board {
                     }
                 //if he makes a move, change turn
             }
-/*
-        else {
-
-            if(c.cellpiece == null) {
-
-                //a square containing a piece is highlighted and we clicked on a square with no piece, we have 2 options now: can select a square
-                //                                                                                                              that belongs to the
-                //                                                                                                              set of coordinates
-                //                                                                or can select some other square
-
-                // if i selected a square that doesn't belong to set of coordinates that piece can go to, then unhighlight the highlighted square
-
-                highlightedbutton.setBackground(originalcellcolour);
-
-                highlightedbutton = null;
-                originalcellcolour = null;
-                highlighted = false;
-
-            } else {
-
-                if(correctColour(c)) {
-
-
-                    highlightedbutton.setBackground(originalcellcolour);    //change previously selected button to the original cell colour
-
-                    highlightedbutton = c.cellbutton;  //now highlightedbutton contains the new selected button
-
-
-
-                    originalcellcolour = highlightedbutton.getBackground();
-                    highlightedbutton.setBackground(new Color(237, 253, 153));
-
-                    highlighted = true;
-
-                    //need to call possiblemoves
-                } else {
-                    //we clicked on a piece of opposite colour
-                    highlightedbutton.setBackground(originalcellcolour);
-
-                    highlightedbutton = null;
-                    originalcellcolour = null;
-                    highlighted = false;
-
-                }
-            }
-
-
-        }*/
     }
 
     static boolean correctColour(Cell c) {
@@ -230,9 +187,16 @@ public class Board {
             return false;
     }
 
+    public static boolean isEmpty(int row, int col) {
+        if(cells[row][col].cellpiece == null)
+            return true;
+        else
+            return false;
+    }
+
     public static boolean sameColourPiece(Cell c, int newrow,int newcol) {
 
-        if(cells[newrow][newcol].cellpiece == null)
+        if(isEmpty(newrow,newcol))
             return false;
 
         Colour originalpiececolour = c.cellpiece.piececolour;

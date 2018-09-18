@@ -84,6 +84,7 @@ public class Cell implements ActionListener {
                     setImage("K");
                     break;
             }
+
     }
 
     void setImage(String S) {
