@@ -3,13 +3,18 @@ package chess.nmamit.pieces;
 import chess.nmamit.Cell;
 import chess.nmamit.Colour;
 import chess.nmamit.Coordinates;
+import chess.nmamit.Pieces;
 
 import java.util.ArrayList;
+
+import static chess.nmamit.Board.isEmpty;
+import static chess.nmamit.Board.isKingAttackedIfPieceRemoved;
+import static chess.nmamit.Board.sameColourPiece;
 
 public class Bishop extends Piece {
     public Bishop(Colour c) {
 
-        piecename = "bishop";
+        piecename = Pieces.BISHOP;
         if(c == Colour.BLACK) {
             pieceimage = createImageIcon("img/BlackBishop.png");
             piececolour = Colour.BLACK;
@@ -25,6 +30,98 @@ public class Bishop extends Piece {
     @Override
     public ArrayList<Coordinates> possibleMoves(Cell c) {
 
-        return null;
+
+        if(isKingAttackedIfPieceRemoved(c)) {
+            //the piece is pinned
+            return null;
+        }
+
+        ArrayList<Coordinates> possiblecoordinates = new ArrayList<Coordinates>();
+        int cellrow = c.getCellRow();
+        int cellcol = c.getCellCol();
+
+        int rowptr;
+        int colptr;
+
+        rowptr = cellrow-1;
+        colptr = cellcol-1;
+
+        while(rowptr >= 0 && colptr >= 0){
+
+            if(isEmpty(rowptr,colptr)) {
+                possiblecoordinates.add(new Coordinates(rowptr, colptr));
+                rowptr--;
+                colptr--;
+            }
+
+            else if (!sameColourPiece(c,rowptr,colptr)){
+                possiblecoordinates.add(new Coordinates(rowptr, colptr));
+                break;
+            }
+
+            else
+                break;
+        }
+
+        rowptr = cellrow+1;
+        colptr = cellcol-1;
+
+        while(rowptr <= 7 && colptr >= 0){
+
+            if(isEmpty(rowptr,colptr)) {
+                possiblecoordinates.add(new Coordinates(rowptr, colptr));
+                rowptr++;
+                colptr--;
+            }
+
+            else if (!sameColourPiece(c,rowptr,colptr)){
+                possiblecoordinates.add(new Coordinates(rowptr, colptr));
+                break;
+            }
+
+            else
+                break;
+        }
+
+        rowptr = cellrow-1;
+        colptr = cellcol+1;
+
+        while(rowptr >= 0 && colptr <= 7){
+
+            if(isEmpty(rowptr,colptr)) {
+                possiblecoordinates.add(new Coordinates(rowptr, colptr));
+                rowptr--;
+                colptr++;
+            }
+
+            else if (!sameColourPiece(c,rowptr,colptr)){
+                possiblecoordinates.add(new Coordinates(rowptr, colptr));
+                break;
+            }
+
+            else
+                break;
+        }
+
+        rowptr = cellrow+1;
+        colptr = cellcol+1;
+
+        while(rowptr <= 7 && colptr <= 7){
+
+            if(isEmpty(rowptr,colptr)) {
+                possiblecoordinates.add(new Coordinates(rowptr, colptr));
+                rowptr++;
+                colptr++;
+            }
+
+            else if (!sameColourPiece(c,rowptr,colptr)){
+                possiblecoordinates.add(new Coordinates(rowptr, colptr));
+                break;
+            }
+
+            else
+                break;
+        }
+        return possiblecoordinates;
     }
 }

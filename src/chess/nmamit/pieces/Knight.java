@@ -3,6 +3,7 @@ package chess.nmamit.pieces;
 import chess.nmamit.Cell;
 import chess.nmamit.Colour;
 import chess.nmamit.Coordinates;
+import chess.nmamit.Pieces;
 
 import java.util.ArrayList;
 
@@ -13,7 +14,7 @@ public class Knight extends Piece {
 
     public Knight(Colour c) {
 
-        piecename = "knight";
+        piecename = Pieces.KNIGHT;
         if(c == Colour.BLACK) {
             pieceimage = createImageIcon("img/BlackKnight.png");
             piececolour = Colour.BLACK;

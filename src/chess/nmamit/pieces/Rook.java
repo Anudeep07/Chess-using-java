@@ -3,6 +3,7 @@ package chess.nmamit.pieces;
 import chess.nmamit.Cell;
 import chess.nmamit.Colour;
 import chess.nmamit.Coordinates;
+import chess.nmamit.Pieces;
 
 import java.util.ArrayList;
 
@@ -14,7 +15,7 @@ public class Rook extends Piece {
 
     public Rook(Colour c) {
 
-        piecename = "rook";
+        piecename = Pieces.ROOK;
         if(c == Colour.BLACK) {
             pieceimage = createImageIcon("img/BlackRook.png");
             piececolour = Colour.BLACK;

@@ -3,6 +3,7 @@ package chess.nmamit.pieces;
 import chess.nmamit.Cell;
 import chess.nmamit.Colour;
 import chess.nmamit.Coordinates;
+import chess.nmamit.Pieces;
 
 import java.util.ArrayList;
 
@@ -14,7 +15,7 @@ public class Pawn extends Piece {
 
     public Pawn(Colour c) {
 
-        piecename = "pawn";
+        piecename = Pieces.PAWN;
         //black pawn
         if(c == Colour.BLACK) {
             pieceimage = createImageIcon("img/BlackPawn.png");

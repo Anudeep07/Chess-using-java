@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static chess.nmamit.Board.*;
@@ -100,7 +101,9 @@ public class Cell implements ActionListener {
     public void actionPerformed(ActionEvent actionEvent) {
 
         if (!highlighted) {
-            makeSelectedCellHighlighted(this);
+          /*  if(cellpiece != null)
+                possiblecoordinates = cellpiece.possibleMoves(this);
+          */  makeSelectedCellHighlighted(this);
         } else {
             /*
              *This occurs when user had already clicked a button and he clicks some other button.
@@ -114,12 +117,20 @@ public class Cell implements ActionListener {
 
             //other than possible coordinates
 
+            if(withinPossibleCoordinates()) {
 
-            unhighlightPreviousPressed(this);
+                removePieceAndAdd();
 
-            if (cellpiece != null && correctColour(this)) {
-                makeSelectedCellHighlighted(this);
+                changeTurn();
+            } else {
+
+                unhighlightPreviousPressed(this);
+
+                if (cellpiece != null && correctColour(this)) {
+                    makeSelectedCellHighlighted(this);
+                }
             }
+
         }
 
 
@@ -140,9 +151,9 @@ public class Cell implements ActionListener {
         return new Coordinates(row,col);
     }
 
-    public String getPieceName() {
+    public Pieces getPieceName() {
         if(cellpiece == null)
-            return "";
+            return null;
         else
             return cellpiece.piecename;
     }
@@ -152,5 +163,42 @@ public class Cell implements ActionListener {
             return Colour.NONE;
         else
             return cellpiece.piececolour;
+    }
+
+    boolean contains(ArrayList<Coordinates> C, Coordinates position) {       //we can't use highlightedcell.possiblecoordinates.contains(cellposition) because it compares the objects and not object.x & object.y
+
+        if(C != null)
+            for(Coordinates cord : C) {
+                if(cord.x == position.x && cord.y == position.y)
+                    return true;
+            }
+
+        return false;
+    }
+
+    boolean withinPossibleCoordinates() {
+        if(contains(highlightedcell.possiblecoordinates, cellposition))     //if highlightedcell.possiblecoordinates contains cellposition
+            return true;
+        else
+            return false;
+    }
+
+    void removePieceAndAdd() {   //removes piece from highlighted cell and adds it to selected cell
+
+        //removing piece from highlightedcell
+
+        highlightedcell.cellbutton.setIcon(null);   //removes icon from highlightedcell
+
+        for(Coordinates coordinates : highlightedcell.possiblecoordinates) {    //this will remove possiblecells' background
+            cells[coordinates.x][coordinates.y].cellbutton.setBorder(BorderFactory.createEmptyBorder());
+        }
+        highlightedcell.possiblecoordinates = null;
+
+        setPiece(highlightedcell.cellpiece.piecename, turn);    //sets piece in selected cell
+        possiblecoordinates = cellpiece.possibleMoves(this);
+
+        highlightedcell.cellpiece = null;
+
+        unhighlightPreviousPressed(this);
     }
 }

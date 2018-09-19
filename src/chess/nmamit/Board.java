@@ -1,6 +1,7 @@
 package chess.nmamit;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -78,11 +79,10 @@ public class Board {
 
         whitekingcell = cells[7][4];
         blackkingcell = cells[0][4];
-
-        generateAllPossibleMoves();
+    //    generateAllPossibleMoves();
 
     }
-
+/*
     void generateAllPossibleMoves() {
         for(int i=0 ; i<2 ; i++) {
             for(int j=0 ; j<8 ; j++) {
@@ -95,10 +95,8 @@ public class Board {
                 cells[i][j].possiblecoordinates = cells[i][j].cellpiece.possibleMoves(cells[i][j]);
             }
         }
-
-
     }
-
+*/
     void setMajorPieces(int row) {
 
         Colour c;
@@ -163,12 +161,14 @@ public class Board {
     static void makeSelectedCellHighlighted(Cell c) {
 
             if(c.cellpiece != null && correctColour(c)) {
+                c.possiblecoordinates = c.cellpiece.possibleMoves(c);
                 highlightedcell = c;
                 highlightedbutton = c.cellbutton;                                       //Cell's button generated the event.
                 originalcellcolour = highlightedbutton.getBackground();
                 highlightedbutton.setBackground(new Color(228, 230, 11));
 
                 highlighted = true;
+
 
 
                 //all possible moves' background is updated here
@@ -209,6 +209,13 @@ public class Board {
         }
     }
 
+    public static void changeTurn() {
+        if(turn == Colour.BLACK)
+            turn = Colour.WHITE;
+        else
+            turn = Colour.BLACK;
+    }
+
     public static boolean isKingAttackedIfPieceRemoved(Cell originalcell) {
 
         Coordinates path;
@@ -238,7 +245,7 @@ public class Board {
 
                         if (cells[originalrow][j].getPieceColour() == originalpiececolour)
                             return false;
-                        if (cells[originalrow][j].getPieceName() == "rook" || cells[originalrow][j].getPieceName() == "queen")
+                        if (cells[originalrow][j].getPieceName() == Pieces.ROOK || cells[originalrow][j].getPieceName() == Pieces.QUEEN)
                             return true;
 
 
@@ -251,7 +258,7 @@ public class Board {
 
                         if (cells[originalrow][j].getPieceColour() == originalpiececolour)
                             return false;
-                        if (cells[originalrow][j].getPieceName() == "rook" || cells[originalrow][j].getPieceName() == "queen")
+                        if (cells[originalrow][j].getPieceName() == Pieces.ROOK  || cells[originalrow][j].getPieceName() == Pieces.QUEEN)
                             return true;
 
                     }
@@ -265,7 +272,7 @@ public class Board {
 
                         if (cells[j][originalcol].getPieceColour() == originalpiececolour)
                             return false;
-                        if (cells[j][originalcol].getPieceName() == "rook" || cells[j][originalcol].getPieceName() == "queen")
+                        if (cells[j][originalcol].getPieceName() == Pieces.ROOK  || cells[j][originalcol].getPieceName() == Pieces.QUEEN)
                             return true;
 
 
@@ -278,7 +285,7 @@ public class Board {
 
                         if (cells[j][originalcol].getPieceColour() == originalpiececolour)
                             return false;
-                        if (cells[j][originalcol].getPieceName() == "rook" || cells[j][originalcol].getPieceName() == "queen")
+                        if (cells[j][originalcol].getPieceName() == Pieces.ROOK  || cells[j][originalcol].getPieceName() == Pieces.QUEEN)
                             return true;
 
                     }
@@ -295,7 +302,7 @@ public class Board {
 
                     if(cells[i][j].getPieceColour() == originalpiececolour)
                         return false;
-                    if(cells[i][j].getPieceName() == "bishop" || cells[i][j].getPieceName() == "queen")
+                    if(cells[i][j].getPieceName() == Pieces.BISHOP || cells[i][j].getPieceName() ==Pieces.QUEEN)
                         return true;
 
                 }
@@ -309,7 +316,7 @@ public class Board {
 
                         if(cells[i][j].getPieceColour() == originalpiececolour)
                             return false;
-                        if(cells[i][j].getPieceName() == "bishop" || cells[i][j].getPieceName() == "queen")
+                        if(cells[i][j].getPieceName() == Pieces.BISHOP || cells[i][j].getPieceName() == Pieces.QUEEN)
                             return true;
 
                     }
@@ -324,7 +331,7 @@ public class Board {
 
                             if(cells[i][j].getPieceColour() == originalpiececolour)
                                 return false;
-                            if(cells[i][j].getPieceName() == "bishop" || cells[i][j].getPieceName() == "queen")
+                            if(cells[i][j].getPieceName() == Pieces.BISHOP || cells[i][j].getPieceName() == Pieces.QUEEN)
                                 return true;
 
                         }
@@ -337,7 +344,7 @@ public class Board {
 
                             if(cells[i][j].getPieceColour() == originalpiececolour)
                                 return false;
-                            if(cells[i][j].getPieceName() == "bishop" || cells[i][j].getPieceName() == "queen")
+                            if(cells[i][j].getPieceName() == Pieces.BISHOP || cells[i][j].getPieceName() == Pieces.QUEEN)
                                 return true;
 
                         }
