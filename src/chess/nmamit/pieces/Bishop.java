@@ -31,10 +31,7 @@ public class Bishop extends Piece {
     public ArrayList<Coordinates> possibleMoves(Cell c) {
 
 
-        if(isKingAttackedIfPieceRemoved(c)) {
-            //the piece is pinned
-            return null;
-        }
+
 
         ArrayList<Coordinates> possiblecoordinates = new ArrayList<Coordinates>();
         int cellrow = c.getCellRow();
@@ -122,6 +119,10 @@ public class Bishop extends Piece {
             else
                 break;
         }
+
+        if(isKingAttackedIfPieceRemoved(c) != null) {
+        }
+
         return possiblecoordinates;
     }
 }

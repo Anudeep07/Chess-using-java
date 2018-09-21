@@ -30,11 +30,6 @@ public class Knight extends Piece {
     @Override
     public ArrayList<Coordinates> possibleMoves(Cell c) {
 
-        if(isKingAttackedIfPieceRemoved(c)) {
-            //the piece is pinned
-            return null;
-        }
-
         ArrayList<Coordinates> possiblecoordinates = new ArrayList<Coordinates>();
         int cellrow = c.getCellRow();
         int cellcol = c.getCellCol();
@@ -77,6 +72,10 @@ public class Knight extends Piece {
             if(cellcol+1 <= 7 && !sameColourPiece(c,cellrow+2,cellcol+1)) {
                 possiblecoordinates.add(new Coordinates(cellrow+2, cellcol+1));
             }
+        }
+
+        if(isKingAttackedIfPieceRemoved(c) != null) {
+            //fill this
         }
 
 

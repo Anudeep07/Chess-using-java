@@ -33,11 +33,6 @@ public class Pawn extends Piece {
     @Override
     public ArrayList<Coordinates> possibleMoves(Cell c) {
 
-        if(isKingAttackedIfPieceRemoved(c)) {
-            //the piece is pinned
-            return null;
-        }
-
         ArrayList<Coordinates> possiblecoordinates = new ArrayList<Coordinates>();
         int cellrow = c.getCellRow();
         int cellcol = c.getCellCol();
@@ -77,6 +72,10 @@ public class Pawn extends Piece {
             if(cellcol < 7 && !sameColourPiece(c,cellrow+1,cellcol+1) && !isEmpty(cellrow+1,cellcol+1))
                 possiblecoordinates.add(new Coordinates(cellrow+1,cellcol+1));
 
+        }
+
+        if(isKingAttackedIfPieceRemoved(c) != null) {
+            //fill this
         }
 
         return possiblecoordinates;

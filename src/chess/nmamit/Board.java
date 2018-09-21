@@ -6,6 +6,7 @@ import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import static java.lang.Math.abs;
 
@@ -216,9 +217,10 @@ public class Board {
             turn = Colour.BLACK;
     }
 
-    public static boolean isKingAttackedIfPieceRemoved(Cell originalcell) {
+    public static ArrayList<Coordinates> isKingAttackedIfPieceRemoved(Cell originalcell) {
 
         Coordinates path;
+        ArrayList<Coordinates> possiblecoordinateswhenpinned = new ArrayList<Coordinates>();
 
         if(originalcell.cellpiece.piececolour == Colour.WHITE) {
 
@@ -245,7 +247,7 @@ public class Board {
                     for (int j = originalcol+1 ; j < 8; j++) {
 
                         if (cells[originalrow][j].getPieceColour() == originalpiececolour)
-                            return false;
+                            return null;
                         if (cells[originalrow][j].getPieceName() == Pieces.ROOK || cells[originalrow][j].getPieceName() == Pieces.QUEEN)
                         {
                             //found a attacking piece
@@ -254,25 +256,27 @@ public class Board {
 
                             for(int k = originalcol-1 ; k>=0 ; k--) {
                                 if(cells[originalrow][k].getPieceName() == Pieces.KING && cells[originalrow][k].getPieceColour() == originalpiececolour)
-                                    return true;
+                                    return possiblecoordinateswhenpinned;
                                 else{
                                     if(cells[originalrow][k].cellpiece != null)
-                                        return false;
+                                        return null;
                                 }
+                                possiblecoordinateswhenpinned.add(new Coordinates(originalrow,k));
                             }
-                            return false;
+                            return null;
                         }
 
+                        possiblecoordinateswhenpinned.add(new Coordinates(originalrow,j));
 
                     }
-                    return false;
+                    return null;
                 }
 
                 if (col > 0) {
                     for (int j = originalcol-1 ; j >= 0; j--) {
 
                         if (cells[originalrow][j].getPieceColour() == originalpiececolour)
-                            return false;
+                            return null;
                         if (cells[originalrow][j].getPieceName() == Pieces.ROOK  || cells[originalrow][j].getPieceName() == Pieces.QUEEN)
                         {
                             //found a attacking piece
@@ -281,17 +285,19 @@ public class Board {
 
                             for(int k = originalcol+1 ; k<8 ; k++) {
                                 if(cells[originalrow][k].getPieceName() == Pieces.KING && cells[originalrow][k].getPieceColour() == originalpiececolour)
-                                    return true;
+                                    return possiblecoordinateswhenpinned;
                                 else{
                                     if(cells[originalrow][k].cellpiece != null)
-                                        return false;
+                                        return null;
                                 }
+                                possiblecoordinateswhenpinned.add(new Coordinates(originalrow,k));
                             }
-                            return false;
+                            return null;
                         }
+                        possiblecoordinateswhenpinned.add(new Coordinates(originalrow,j));
 
                     }
-                    return false;
+                    return null;
                 }
             }
 
@@ -300,7 +306,7 @@ public class Board {
                     for (int j = originalrow+1 ; j < 8 ; j++) {
 
                         if (cells[j][originalcol].getPieceColour() == originalpiececolour)
-                            return false;
+                            return null;
                         if (cells[j][originalcol].getPieceName() == Pieces.ROOK  || cells[j][originalcol].getPieceName() == Pieces.QUEEN)
                         {
                             //found a attacking piece
@@ -309,25 +315,26 @@ public class Board {
 
                             for(int k = originalrow-1 ; k>=0 ; k--) {
                                 if(cells[k][originalcol].getPieceName() == Pieces.KING && cells[k][originalcol].getPieceColour() == originalpiececolour)
-                                    return true;
+                                    return possiblecoordinateswhenpinned;
                                 else{
                                     if(cells[k][originalcol].cellpiece != null)
-                                        return false;
+                                        return null;
                                 }
+                                possiblecoordinateswhenpinned.add(new Coordinates(k,originalcol));
                             }
-                            return false;
+                            return null;
                         }
 
-
+                        possiblecoordinateswhenpinned.add(new Coordinates(j,originalcol));
                     }
-                    return false;
+                    return null;
                 }
 
                 if (row > 0) {
                     for (int j = originalrow-1 ; j >= 0 ; j--) {
 
                         if (cells[j][originalcol].getPieceColour() == originalpiececolour)
-                            return false;
+                            return null;
                         if (cells[j][originalcol].getPieceName() == Pieces.ROOK  || cells[j][originalcol].getPieceName() == Pieces.QUEEN)
                         {
                             //found a attacking piece
@@ -336,17 +343,18 @@ public class Board {
 
                             for(int k = originalrow+1 ; k<8 ; k++) {
                                 if(cells[k][originalcol].getPieceName() == Pieces.KING && cells[k][originalcol].getPieceColour() == originalpiececolour)
-                                    return true;
+                                    return possiblecoordinateswhenpinned;
                                 else{
                                     if(cells[k][originalcol].cellpiece != null)
-                                        return false;
+                                        return null;
                                 }
+                                possiblecoordinateswhenpinned.add(new Coordinates(k,originalcol));
                             }
-                            return false;
+                            return null;
                         }
-
+                        possiblecoordinateswhenpinned.add(new Coordinates(j,originalcol));
                     }
-                    return false;
+                    return null;
                 }
             }
 
@@ -358,7 +366,7 @@ public class Board {
                 for(int i=originalrow-1, j=originalcol+1 ; i>=0 && j<8 ; i--,j++) {
 
                     if(cells[i][j].getPieceColour() == originalpiececolour)
-                        return false;
+                        return null;
                     if(cells[i][j].getPieceName() == Pieces.BISHOP || cells[i][j].getPieceName() ==Pieces.QUEEN)
                     {
                         //found a attacking piece
@@ -367,18 +375,21 @@ public class Board {
 
                         for(int k = originalrow+1, l=originalcol-1 ; k<8 && l>=0 ; k++,l--) {
                             if(cells[k][l].getPieceName() == Pieces.KING && cells[k][l].getPieceColour() == originalpiececolour)
-                                return true;
+                                return possiblecoordinateswhenpinned;
                             else{
                                 if(cells[k][l].cellpiece != null)
-                                    return false;
+                                    return null;
                             }
+                            possiblecoordinateswhenpinned.add(new Coordinates(k,l));
                         }
-                        return false;
+                        return null;
                     }
+
+                    possiblecoordinateswhenpinned.add(new Coordinates(i,j));
 
                 }
 
-                return false;
+                return null;
             } else {
                 if(col > row) {
                     //(-x,x)
@@ -386,7 +397,7 @@ public class Board {
                     for(int i=originalrow+1, j=originalcol-1 ; i<8 && j>=0 ; i++,j--) {
 
                         if(cells[i][j].getPieceColour() == originalpiececolour)
-                            return false;
+                            return null;
                         if(cells[i][j].getPieceName() == Pieces.BISHOP || cells[i][j].getPieceName() == Pieces.QUEEN)
                         {
                             //found a attacking piece
@@ -395,18 +406,19 @@ public class Board {
 
                             for(int k = originalrow-1, l=originalcol+1 ; k>=0 && l<8 ; k--,l++) {
                                 if(cells[k][l].getPieceName() == Pieces.KING && cells[k][l].getPieceColour() == originalpiececolour)
-                                    return true;
+                                    return possiblecoordinateswhenpinned;
                                 else{
                                     if(cells[k][l].cellpiece != null)
-                                        return false;
+                                        return null;
                                 }
+                                possiblecoordinateswhenpinned.add(new Coordinates(k,l));
                             }
-                            return false;
+                            return null;
                         }
-
+                        possiblecoordinateswhenpinned.add(new Coordinates(i,j));
                     }
 
-                    return false;
+                    return null;
                 } else {
                     //(x,x) or (-x,-x)
                     if(row < 0) {
@@ -415,7 +427,7 @@ public class Board {
                         for(int i=originalrow+1,j=originalcol+1 ; i<8 && j<8 ; i++,j++) {
 
                             if(cells[i][j].getPieceColour() == originalpiececolour)
-                                return false;
+                                return null;
                             if(cells[i][j].getPieceName() == Pieces.BISHOP || cells[i][j].getPieceName() == Pieces.QUEEN)
                             {
                                 //found a attacking piece
@@ -424,17 +436,19 @@ public class Board {
 
                                 for(int k = originalrow-1, l=originalcol-1 ; k>=0 && l>=0 ; k--,l--) {
                                     if(cells[k][l].getPieceName() == Pieces.KING && cells[k][l].getPieceColour() == originalpiececolour)
-                                        return true;
+                                        return possiblecoordinateswhenpinned;
                                     else{
                                         if(cells[k][l].cellpiece != null)
-                                            return false;
+                                            return null;
                                     }
+                                    possiblecoordinateswhenpinned.add(new Coordinates(k,l));
                                 }
-                                return false;
+                                return null;
                             }
+                            possiblecoordinateswhenpinned.add(new Coordinates(i,j));
 
                         }
-                        return false;
+                        return null;
 
                     } else {
                         //(x,x)
@@ -442,7 +456,7 @@ public class Board {
                         for(int i=originalrow-1,j=originalcol-1 ; i>=0 && j>=0 ; i--,j--) {
 
                             if(cells[i][j].getPieceColour() == originalpiececolour)
-                                return false;
+                                return null;
                             if(cells[i][j].getPieceName() == Pieces.BISHOP || cells[i][j].getPieceName() == Pieces.QUEEN)
                             {
                                 //found a attacking piece
@@ -451,17 +465,17 @@ public class Board {
 
                                 for(int k = originalrow+1, l=originalcol+1 ; k<8 && l<8 ; k++,l++) {
                                     if(cells[k][l].getPieceName() == Pieces.KING && cells[k][l].getPieceColour() == originalpiececolour)
-                                        return true;
+                                        return possiblecoordinateswhenpinned;
                                     else{
                                         if(cells[k][l].cellpiece != null)
-                                            return false;
+                                            return null;
                                     }
                                 }
-                                return false;
+                                return null;
                             }
 
                         }
-                        return false;
+                        return null;
 
                     }
                 }
@@ -469,7 +483,7 @@ public class Board {
 
 
         } else {
-            return false;
+            return null;
         }
 
     }

@@ -30,10 +30,6 @@ public class Rook extends Piece {
 
     @Override
     public ArrayList<Coordinates> possibleMoves(Cell c) {
-        if(isKingAttackedIfPieceRemoved(c)) {
-            //the piece is pinned
-            return null;
-        }
 
         ArrayList<Coordinates> possiblecoordinates = new ArrayList<Coordinates>();
         int cellrow = c.getCellRow();
@@ -90,6 +86,11 @@ public class Rook extends Piece {
             } else
                 break;
         }
+
+        if(isKingAttackedIfPieceRemoved(c) != null) {
+            //fill this
+        }
+
         return possiblecoordinates;
     }
 }
