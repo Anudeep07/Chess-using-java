@@ -241,12 +241,27 @@ public class Board {
 
             if(row == 0) {
                 if (col < 0) {
-                    for (int j = originalcol; j < 8; j++) {
+                    //(0,-x)
+                    for (int j = originalcol+1 ; j < 8; j++) {
 
                         if (cells[originalrow][j].getPieceColour() == originalpiececolour)
                             return false;
                         if (cells[originalrow][j].getPieceName() == Pieces.ROOK || cells[originalrow][j].getPieceName() == Pieces.QUEEN)
-                            return true;
+                        {
+                            //found a attacking piece
+                            //should return true if there is nothing blocking the originalpiece and the king
+                            //if there is some piece(any colour) between the originalpiece and the king, then return false
+
+                            for(int k = originalcol-1 ; k>=0 ; k--) {
+                                if(cells[originalrow][k].getPieceName() == Pieces.KING && cells[originalrow][k].getPieceColour() == originalpiececolour)
+                                    return true;
+                                else{
+                                    if(cells[originalrow][k].cellpiece != null)
+                                        return false;
+                                }
+                            }
+                            return false;
+                        }
 
 
                     }
@@ -254,12 +269,26 @@ public class Board {
                 }
 
                 if (col > 0) {
-                    for (int j = originalcol; j >= 0; j--) {
+                    for (int j = originalcol-1 ; j >= 0; j--) {
 
                         if (cells[originalrow][j].getPieceColour() == originalpiececolour)
                             return false;
                         if (cells[originalrow][j].getPieceName() == Pieces.ROOK  || cells[originalrow][j].getPieceName() == Pieces.QUEEN)
-                            return true;
+                        {
+                            //found a attacking piece
+                            //should return true if there is nothing blocking the originalpiece and the king
+                            //if there is some piece(any colour) between the originalpiece and the king, then return false
+
+                            for(int k = originalcol+1 ; k<8 ; k++) {
+                                if(cells[originalrow][k].getPieceName() == Pieces.KING && cells[originalrow][k].getPieceColour() == originalpiececolour)
+                                    return true;
+                                else{
+                                    if(cells[originalrow][k].cellpiece != null)
+                                        return false;
+                                }
+                            }
+                            return false;
+                        }
 
                     }
                     return false;
@@ -268,12 +297,26 @@ public class Board {
 
             if(col == 0) {
                 if (row < 0) {
-                    for (int j = originalrow; j >= 0 ; j--) {
+                    for (int j = originalrow+1 ; j < 8 ; j++) {
 
                         if (cells[j][originalcol].getPieceColour() == originalpiececolour)
                             return false;
                         if (cells[j][originalcol].getPieceName() == Pieces.ROOK  || cells[j][originalcol].getPieceName() == Pieces.QUEEN)
-                            return true;
+                        {
+                            //found a attacking piece
+                            //should return true if there is nothing blocking the originalpiece and the king
+                            //if there is some piece(any colour) between the originalpiece and the king, then return false
+
+                            for(int k = originalrow-1 ; k>=0 ; k--) {
+                                if(cells[k][originalcol].getPieceName() == Pieces.KING && cells[k][originalcol].getPieceColour() == originalpiececolour)
+                                    return true;
+                                else{
+                                    if(cells[k][originalcol].cellpiece != null)
+                                        return false;
+                                }
+                            }
+                            return false;
+                        }
 
 
                     }
@@ -281,12 +324,26 @@ public class Board {
                 }
 
                 if (row > 0) {
-                    for (int j = originalrow ; j < 8 ; j++) {
+                    for (int j = originalrow-1 ; j >= 0 ; j--) {
 
                         if (cells[j][originalcol].getPieceColour() == originalpiececolour)
                             return false;
                         if (cells[j][originalcol].getPieceName() == Pieces.ROOK  || cells[j][originalcol].getPieceName() == Pieces.QUEEN)
-                            return true;
+                        {
+                            //found a attacking piece
+                            //should return true if there is nothing blocking the originalpiece and the king
+                            //if there is some piece(any colour) between the originalpiece and the king, then return false
+
+                            for(int k = originalrow+1 ; k<8 ; k++) {
+                                if(cells[k][originalcol].getPieceName() == Pieces.KING && cells[k][originalcol].getPieceColour() == originalpiececolour)
+                                    return true;
+                                else{
+                                    if(cells[k][originalcol].cellpiece != null)
+                                        return false;
+                                }
+                            }
+                            return false;
+                        }
 
                     }
                     return false;
@@ -298,12 +355,26 @@ public class Board {
             if(row > col) {
                 //(x,-x)
 
-                for(int i=originalrow, j=originalcol ; i<8 && j>=0 ; i++,j--) {
+                for(int i=originalrow-1, j=originalcol+1 ; i>=0 && j<8 ; i--,j++) {
 
                     if(cells[i][j].getPieceColour() == originalpiececolour)
                         return false;
                     if(cells[i][j].getPieceName() == Pieces.BISHOP || cells[i][j].getPieceName() ==Pieces.QUEEN)
-                        return true;
+                    {
+                        //found a attacking piece
+                        //should return true if there is nothing blocking the originalpiece and the king
+                        //if there is some piece(any colour) between the originalpiece and the king, then return false
+
+                        for(int k = originalrow+1, l=originalcol-1 ; k<8 && l>=0 ; k++,l--) {
+                            if(cells[k][l].getPieceName() == Pieces.KING && cells[k][l].getPieceColour() == originalpiececolour)
+                                return true;
+                            else{
+                                if(cells[k][l].cellpiece != null)
+                                    return false;
+                            }
+                        }
+                        return false;
+                    }
 
                 }
 
@@ -312,12 +383,26 @@ public class Board {
                 if(col > row) {
                     //(-x,x)
 
-                    for(int i=originalrow, j=originalcol ; i>=0 && j<8 ; i--,j++) {
+                    for(int i=originalrow+1, j=originalcol-1 ; i<8 && j>=0 ; i++,j--) {
 
                         if(cells[i][j].getPieceColour() == originalpiececolour)
                             return false;
                         if(cells[i][j].getPieceName() == Pieces.BISHOP || cells[i][j].getPieceName() == Pieces.QUEEN)
-                            return true;
+                        {
+                            //found a attacking piece
+                            //should return true if there is nothing blocking the originalpiece and the king
+                            //if there is some piece(any colour) between the originalpiece and the king, then return false
+
+                            for(int k = originalrow-1, l=originalcol+1 ; k>=0 && l<8 ; k--,l++) {
+                                if(cells[k][l].getPieceName() == Pieces.KING && cells[k][l].getPieceColour() == originalpiececolour)
+                                    return true;
+                                else{
+                                    if(cells[k][l].cellpiece != null)
+                                        return false;
+                                }
+                            }
+                            return false;
+                        }
 
                     }
 
@@ -327,12 +412,26 @@ public class Board {
                     if(row < 0) {
                         //(-x,-x)
 
-                        for(int i=originalrow,j=originalcol ; i>=0 && j>=0 ; i--,j--) {
+                        for(int i=originalrow+1,j=originalcol+1 ; i<8 && j<8 ; i++,j++) {
 
                             if(cells[i][j].getPieceColour() == originalpiececolour)
                                 return false;
                             if(cells[i][j].getPieceName() == Pieces.BISHOP || cells[i][j].getPieceName() == Pieces.QUEEN)
-                                return true;
+                            {
+                                //found a attacking piece
+                                //should return true if there is nothing blocking the originalpiece and the king
+                                //if there is some piece(any colour) between the originalpiece and the king, then return false
+
+                                for(int k = originalrow-1, l=originalcol-1 ; k>=0 && l>=0 ; k--,l--) {
+                                    if(cells[k][l].getPieceName() == Pieces.KING && cells[k][l].getPieceColour() == originalpiececolour)
+                                        return true;
+                                    else{
+                                        if(cells[k][l].cellpiece != null)
+                                            return false;
+                                    }
+                                }
+                                return false;
+                            }
 
                         }
                         return false;
@@ -340,12 +439,26 @@ public class Board {
                     } else {
                         //(x,x)
 
-                        for(int i=originalrow,j=originalcol ; i<8 && j<8 ; i++,j++) {
+                        for(int i=originalrow-1,j=originalcol-1 ; i>=0 && j>=0 ; i--,j--) {
 
                             if(cells[i][j].getPieceColour() == originalpiececolour)
                                 return false;
                             if(cells[i][j].getPieceName() == Pieces.BISHOP || cells[i][j].getPieceName() == Pieces.QUEEN)
-                                return true;
+                            {
+                                //found a attacking piece
+                                //should return true if there is nothing blocking the originalpiece and the king
+                                //if there is some piece(any colour) between the originalpiece and the king, then return false
+
+                                for(int k = originalrow+1, l=originalcol+1 ; k<8 && l<8 ; k++,l++) {
+                                    if(cells[k][l].getPieceName() == Pieces.KING && cells[k][l].getPieceColour() == originalpiececolour)
+                                        return true;
+                                    else{
+                                        if(cells[k][l].cellpiece != null)
+                                            return false;
+                                    }
+                                }
+                                return false;
+                            }
 
                         }
                         return false;

@@ -145,8 +145,8 @@ public class Cell implements ActionListener {
     }
 
     Coordinates subtract(Cell c1) {
-        int row = this.getCellRow() - c1.getCellRow();
-        int col = this.getCellCol() - c1.getCellCol();
+        int row = c1.getCellRow() - this.getCellRow();
+        int col = c1.getCellCol() - this.getCellCol();
 
         return new Coordinates(row,col);
     }
