@@ -73,11 +73,13 @@ public class Knight extends Piece {
                 possiblecoordinates.add(new Coordinates(cellrow+2, cellcol+1));
             }
         }
+        ArrayList<Coordinates> pinnedcoordinates = isKingAttackedIfPieceRemoved(c);
 
-        if(isKingAttackedIfPieceRemoved(c) != null) {
+        if(pinnedcoordinates != null) {
+
+            return intersection(pinnedcoordinates,possiblecoordinates);
             //fill this
         }
-
 
         return possiblecoordinates;
     }

@@ -165,7 +165,7 @@ public class Cell implements ActionListener {
             return cellpiece.piececolour;
     }
 
-    boolean contains(ArrayList<Coordinates> C, Coordinates position) {       //we can't use highlightedcell.possiblecoordinates.contains(cellposition) because it compares the objects and not object.x & object.y
+    public static boolean contains(ArrayList<Coordinates> C, Coordinates position) {       //we can't use highlightedcell.possiblecoordinates.contains(cellposition) because it compares the objects and not object.x & object.y
 
         if(C != null)
             for(Coordinates cord : C) {

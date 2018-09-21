@@ -19,7 +19,7 @@ public class Game {
 
         boardframe.setSize(800,900);
         boardframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        boardframe.setResizable(false);
+        boardframe.setResizable(true);
 
         player1 = new Player(p1, Colour.WHITE);
         player2 = new Player(p2,Colour.BLACK);

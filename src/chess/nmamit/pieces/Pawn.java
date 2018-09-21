@@ -74,7 +74,11 @@ public class Pawn extends Piece {
 
         }
 
-        if(isKingAttackedIfPieceRemoved(c) != null) {
+        ArrayList<Coordinates> pinnedcoordinates = isKingAttackedIfPieceRemoved(c);
+
+        if(pinnedcoordinates != null) {
+
+            return intersection(pinnedcoordinates,possiblecoordinates);
             //fill this
         }
 

@@ -7,7 +7,10 @@ import chess.nmamit.Pieces;
 
 import javax.swing.*;
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+
+import static chess.nmamit.Cell.contains;
 
 
 public abstract class Piece {
@@ -28,6 +31,19 @@ public abstract class Piece {
         } else {
             return null;
         }
+    }
+
+    public ArrayList<Coordinates> intersection(ArrayList<Coordinates> list1, ArrayList<Coordinates> list2) {
+
+        ArrayList<Coordinates> list = new ArrayList<Coordinates>();
+
+        for(Coordinates c : list1) {
+            if(contains(list2,c)) {
+                list.add(c);
+            }
+        }
+
+        return list;
     }
 
     public ImageIcon getPieceImage() {
