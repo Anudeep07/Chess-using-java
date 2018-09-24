@@ -87,7 +87,11 @@ public class Rook extends Piece {
                 break;
         }
 
-        if(isKingAttackedIfPieceRemoved(c) != null) {
+        ArrayList<Coordinates> pinnedcoordinates = isKingAttackedIfPieceRemoved(c);
+
+        if(pinnedcoordinates != null) {
+
+            return intersection(pinnedcoordinates,possiblecoordinates);
             //fill this
         }
 

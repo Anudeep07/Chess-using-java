@@ -235,6 +235,7 @@ public class Board {
                             return null;
                         if (cells[originalrow][j].getPieceName() == Pieces.ROOK || cells[originalrow][j].getPieceName() == Pieces.QUEEN)
                         {
+                            possiblecoordinateswhenpinned.add(new Coordinates(originalrow,j));// attacking piece cell is also possible
                             //found a attacking piece
                             //should return true if there is nothing blocking the originalpiece and the king
                             //if there is some piece(any colour) between the originalpiece and the king, then return false
@@ -264,6 +265,7 @@ public class Board {
                             return null;
                         if (cells[originalrow][j].getPieceName() == Pieces.ROOK  || cells[originalrow][j].getPieceName() == Pieces.QUEEN)
                         {
+                            possiblecoordinateswhenpinned.add(new Coordinates(originalrow,j));
                             //found a attacking piece
                             //should return true if there is nothing blocking the originalpiece and the king
                             //if there is some piece(any colour) between the originalpiece and the king, then return false
@@ -294,6 +296,7 @@ public class Board {
                             return null;
                         if (cells[j][originalcol].getPieceName() == Pieces.ROOK  || cells[j][originalcol].getPieceName() == Pieces.QUEEN)
                         {
+                            possiblecoordinateswhenpinned.add(new Coordinates(j,originalcol));
                             //found a attacking piece
                             //should return true if there is nothing blocking the originalpiece and the king
                             //if there is some piece(any colour) between the originalpiece and the king, then return false
@@ -322,6 +325,7 @@ public class Board {
                             return null;
                         if (cells[j][originalcol].getPieceName() == Pieces.ROOK  || cells[j][originalcol].getPieceName() == Pieces.QUEEN)
                         {
+                            possiblecoordinateswhenpinned.add(new Coordinates(j,originalcol));
                             //found a attacking piece
                             //should return true if there is nothing blocking the originalpiece and the king
                             //if there is some piece(any colour) between the originalpiece and the king, then return false
@@ -354,6 +358,7 @@ public class Board {
                         return null;
                     if(cells[i][j].getPieceName() == Pieces.BISHOP || cells[i][j].getPieceName() ==Pieces.QUEEN)
                     {
+                        possiblecoordinateswhenpinned.add(new Coordinates(i,j));
                         //found a attacking piece
                         //should return true if there is nothing blocking the originalpiece and the king
                         //if there is some piece(any colour) between the originalpiece and the king, then return false
@@ -385,6 +390,8 @@ public class Board {
                             return null;
                         if(cells[i][j].getPieceName() == Pieces.BISHOP || cells[i][j].getPieceName() == Pieces.QUEEN)
                         {
+                            possiblecoordinateswhenpinned.add(new Coordinates(i,j));
+
                             //found a attacking piece
                             //should return true if there is nothing blocking the originalpiece and the king
                             //if there is some piece(any colour) between the originalpiece and the king, then return false
@@ -415,6 +422,7 @@ public class Board {
                                 return null;
                             if(cells[i][j].getPieceName() == Pieces.BISHOP || cells[i][j].getPieceName() == Pieces.QUEEN)
                             {
+                                possiblecoordinateswhenpinned.add(new Coordinates(i,j));
                                 //found a attacking piece
                                 //should return true if there is nothing blocking the originalpiece and the king
                                 //if there is some piece(any colour) between the originalpiece and the king, then return false
@@ -444,6 +452,7 @@ public class Board {
                                 return null;
                             if(cells[i][j].getPieceName() == Pieces.BISHOP || cells[i][j].getPieceName() == Pieces.QUEEN)
                             {
+                                possiblecoordinateswhenpinned.add(new Coordinates(i,j));
                                 //found a attacking piece
                                 //should return true if there is nothing blocking the originalpiece and the king
                                 //if there is some piece(any colour) between the originalpiece and the king, then return false
@@ -455,10 +464,12 @@ public class Board {
                                         if(cells[k][l].cellpiece != null)
                                             return null;
                                     }
+                                    possiblecoordinateswhenpinned.add(new Coordinates(k,l));
                                 }
                                 return null;
                             }
 
+                            possiblecoordinateswhenpinned.add(new Coordinates(i,j));
                         }
                         return null;
 
