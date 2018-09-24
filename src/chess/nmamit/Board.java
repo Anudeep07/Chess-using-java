@@ -34,6 +34,7 @@ public class Board {
     static Cell cells[][];
     static Cell whitekingcell;
     static Cell blackkingcell;
+    static Colour kingdead;
 
     Board() {
         boardpanel = new JPanel();
@@ -41,6 +42,7 @@ public class Board {
         highlightedbutton = null;
         originalcellcolour = null;
         turn = Colour.WHITE;
+        kingdead = Colour.NONE;
 
 
         boardpanel.setSize(800, 800);
@@ -80,24 +82,7 @@ public class Board {
 
         whitekingcell = cells[7][4];
         blackkingcell = cells[0][4];
-    //    generateAllPossibleMoves();
-
     }
-/*
-    void generateAllPossibleMoves() {
-        for(int i=0 ; i<2 ; i++) {
-            for(int j=0 ; j<8 ; j++) {
-                cells[i][j].possiblecoordinates = cells[i][j].cellpiece.possibleMoves(cells[i][j]);
-            }
-        }
-
-        for(int i=6 ; i<8 ; i++) {
-            for(int j=0 ; j<8 ; j++) {
-                cells[i][j].possiblecoordinates = cells[i][j].cellpiece.possibleMoves(cells[i][j]);
-            }
-        }
-    }
-*/
     void setMajorPieces(int row) {
 
         Colour c;

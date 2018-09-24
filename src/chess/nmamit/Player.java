@@ -11,14 +11,14 @@ public class Player {
     JButton resign;
     Colour c;
 
-    public Player(String pname, Colour c) {
+    public Player(String pname, Colour c, LocalGame game) {
         name = pname;
         this.c = c;
 
-        createPlayerPanel();
+        createPlayerPanel(game);
     }
 
-    void createPlayerPanel() {
+    void createPlayerPanel(LocalGame game) {
 
         playerpanel = new JPanel();
         playerpanel.setPreferredSize(new Dimension(800,50));
@@ -29,7 +29,11 @@ public class Player {
         issuedraw = new JButton("Draw");
         resign = new JButton("Resign");
 
+        issuedraw.setActionCommand(name+" Draw");
+        resign.setActionCommand(name+" Resign");
 
+        resign.addActionListener(game);
+        issuedraw.addActionListener(game);
 
         playerpanel.add(issuedraw);
         playerpanel.add(resign);

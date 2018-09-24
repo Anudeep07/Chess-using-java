@@ -121,6 +121,10 @@ public class Cell implements ActionListener {
 
                 removePieceAndAdd();
 
+                if(kingdead != Colour.NONE) {
+                    endGame();
+                }
+
                 changeTurn();
             } else {
 
@@ -189,6 +193,14 @@ public class Cell implements ActionListener {
 
         highlightedcell.cellbutton.setIcon(null);   //removes icon from highlightedcell
 
+        //if selected cell is king (some piece removes king), then set respective colour king as dead
+        if(this.cellpiece != null && this.cellpiece.piecename == Pieces.KING ) {
+            if(this.cellpiece.piececolour == Colour.WHITE)
+                kingdead = Colour.WHITE;
+            else
+                kingdead = Colour.BLACK;
+        }
+
         for(Coordinates coordinates : highlightedcell.possiblecoordinates) {    //this will remove possiblecells' background
             cells[coordinates.x][coordinates.y].cellbutton.setBorder(BorderFactory.createEmptyBorder());
         }
@@ -200,5 +212,16 @@ public class Cell implements ActionListener {
         highlightedcell.cellpiece = null;
 
         unhighlightPreviousPressed(this);
+    }
+
+    void endGame() {
+        if(kingdead == Colour.WHITE) {
+            JOptionPane.showMessageDialog(null,"Black wins!");
+
+
+        } else {
+            JOptionPane.showMessageDialog(null, "White wins!");
+        }
+        System.exit(0);
     }
 }
