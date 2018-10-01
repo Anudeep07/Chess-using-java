@@ -4,24 +4,27 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 import java.util.StringTokenizer;
 
 /**
  * This class is used to create a chess game.
- * Object of chess.nmamit.LocalGame() class will enable you to play chess.
+ * Object of chess.nmamit.LocalGame class will enable you to play chess locally.
  */
-public class LocalGame implements ActionListener {
+public class LocalGame implements Game, Serializable {
 
-    JFrame boardframe;
+    JDialog boardframe;
     Player player1;
     Player player2;
     Board board;
 
     LocalGame(String p1, String p2) {
-        boardframe = new JFrame("Play chess");
+        boardframe = new JDialog();
 
+        boardframe.setTitle("Play chess");
         boardframe.setSize(800,900);
-        boardframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        boardframe.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        boardframe.setModal(true);
         boardframe.setResizable(false);
 
         player1 = new Player(p1, Colour.WHITE, this);

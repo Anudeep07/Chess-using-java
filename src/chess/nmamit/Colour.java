@@ -1,5 +1,7 @@
 package chess.nmamit;
 
-public enum Colour {
+import java.io.Serializable;
+
+public enum Colour implements Serializable {
     BLACK,WHITE,NONE;
 }

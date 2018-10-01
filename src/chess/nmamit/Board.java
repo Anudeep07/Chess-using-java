@@ -6,8 +6,11 @@ import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
 import java.util.ArrayList;
 
+import static chess.nmamit.network.Connect.modifyClientNetworkTurn;
+import static chess.nmamit.network.Host.modifyHostNetworkTurn;
 import static java.lang.Math.abs;
 
 /*
@@ -25,7 +28,8 @@ import static java.lang.Math.abs;
 
 
 public class Board {
-    JPanel boardpanel;
+    public static Board boardref;
+    public JPanel boardpanel;
     static Colour turn;
     static boolean highlighted;
     static JButton highlightedbutton;
@@ -34,15 +38,22 @@ public class Board {
     static Cell cells[][];
     static Cell whitekingcell;
     static Cell blackkingcell;
-    static Colour kingdead;
+    public static Colour kingdead;
+    public static boolean networkmode;
+    public static boolean ishost;
+    ObjectOutputStream output;
 
-    Board() {
+
+    public Board() {
         boardpanel = new JPanel();
         highlighted = false;
         highlightedbutton = null;
         originalcellcolour = null;
         turn = Colour.WHITE;
         kingdead = Colour.NONE;
+        boardref = this;
+        networkmode = false;    //will be overwritten to true if its networking since Board() is called in Board(ObjectOutputStream)
+
 
 
         boardpanel.setSize(800, 800);
@@ -53,6 +64,63 @@ public class Board {
         drawBoardAndAddToPanel(cells);
 
         boardpanel.setVisible(true);
+    }
+
+    public Board(ObjectOutputStream output, boolean host) {
+        this();
+        this.output = output;
+        networkmode = true;
+
+        if(host) {
+            ishost = true;
+            turn = Colour.WHITE;
+        } else {
+            ishost = false;
+            turn = Colour.BLACK;
+        }
+    }
+
+    public static void sendMoveOnNetwork(ArrayList<Coordinates> movedcells) {
+        try {
+            boardref.output.flush();
+            boardref.output.writeObject(movedcells);
+
+            if(ishost) {
+                modifyHostNetworkTurn(Colour.BLACK);
+            } else {
+                modifyClientNetworkTurn(Colour.WHITE);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Colour updateBoardFromNetwork(Coordinates originalcoordinates, Coordinates newcoordinates) {
+
+        Cell originalcell = cells[originalcoordinates.x][originalcoordinates.y];
+        Cell newcell = cells[newcoordinates.x][newcoordinates.y];
+
+
+        originalcell.cellbutton.setIcon(null);   //removes icon from highlightedcell
+
+
+        originalcell.possiblecoordinates = null;
+
+        newcell.setPiece(originalcell.cellpiece.piecename, originalcell.cellpiece.piececolour);    //sets piece in selected cell
+        newcell.possiblecoordinates = newcell.cellpiece.possibleMoves(newcell);
+
+        originalcell.cellpiece = null;
+
+        //if selected cell is king (some piece removes king), then return colour that won the game
+        if(newcell.cellpiece != null && newcell.cellpiece.piecename == Pieces.KING ) {
+            if(newcell.cellpiece.piececolour == Colour.WHITE)
+                return Colour.BLACK;
+            else
+                return Colour.WHITE;
+
+        }
+        return Colour.NONE;
     }
 
     void drawBoardAndAddToPanel(Cell cells[][]) {
@@ -140,8 +208,6 @@ public class Board {
         highlightedbutton = null;
         originalcellcolour = null;
         highlighted = false;
-
-
     }
 
     static void makeSelectedCellHighlighted(Cell c) {

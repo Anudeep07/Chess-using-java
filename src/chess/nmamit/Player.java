@@ -2,23 +2,24 @@ package chess.nmamit;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serializable;
 
-public class Player {
+public class Player implements Serializable {
     String name;
-    JPanel playerpanel;
+    public JPanel playerpanel;
     JLabel playername;
     JButton issuedraw;
     JButton resign;
     Colour c;
 
-    public Player(String pname, Colour c, LocalGame game) {
+    public Player(String pname, Colour c, Game game) {
         name = pname;
         this.c = c;
 
         createPlayerPanel(game);
     }
 
-    void createPlayerPanel(LocalGame game) {
+    void createPlayerPanel(Game game) {
 
         playerpanel = new JPanel();
         playerpanel.setPreferredSize(new Dimension(800,50));

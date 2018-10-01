@@ -1,9 +1,11 @@
 package chess.nmamit;
 
+import java.io.Serializable;
+
 /*
  *This class will enable the user to play locally.
  */
-public class Local {
+public class Local implements Serializable {
 
     Local() {
 

@@ -1,5 +1,7 @@
 package chess.nmamit;
 
-public enum Pieces {
+import java.io.Serializable;
+
+public enum Pieces implements Serializable {
     PAWN,KNIGHT,BISHOP,ROOK,QUEEN,KING,NONE
 }

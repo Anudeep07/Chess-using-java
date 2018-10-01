@@ -5,13 +5,14 @@ import chess.nmamit.Colour;
 import chess.nmamit.Coordinates;
 import chess.nmamit.Pieces;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import static chess.nmamit.Board.isEmpty;
 import static chess.nmamit.Board.isKingAttackedIfPieceRemoved;
 import static chess.nmamit.Board.sameColourPiece;
 
-public class Rook extends Piece {
+public class Rook extends Piece implements Serializable {
 
     public Rook(Colour c) {
 

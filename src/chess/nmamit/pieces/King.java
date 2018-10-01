@@ -5,12 +5,13 @@ import chess.nmamit.Colour;
 import chess.nmamit.Coordinates;
 import chess.nmamit.Pieces;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import static chess.nmamit.Board.isEmpty;
 import static chess.nmamit.Board.sameColourPiece;
 
-public class King extends Piece {
+public class King extends Piece implements Serializable {
     public King(Colour c) {
 
         piecename = Pieces.KING;

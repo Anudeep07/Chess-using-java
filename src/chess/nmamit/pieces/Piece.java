@@ -7,13 +7,14 @@ import chess.nmamit.Pieces;
 
 import javax.swing.*;
 import java.io.File;
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static chess.nmamit.Cell.contains;
 
 
-public abstract class Piece {
+public abstract class Piece implements Serializable {
 
     ImageIcon pieceimage;
     public Pieces piecename;

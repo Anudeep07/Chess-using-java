@@ -5,12 +5,13 @@ import chess.nmamit.Colour;
 import chess.nmamit.Coordinates;
 import chess.nmamit.Pieces;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import static chess.nmamit.Board.isKingAttackedIfPieceRemoved;
 import static chess.nmamit.Board.sameColourPiece;
 
-public class Knight extends Piece {
+public class Knight extends Piece implements Serializable {
 
     public Knight(Colour c) {
 

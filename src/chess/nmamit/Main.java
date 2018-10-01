@@ -1,5 +1,7 @@
 package chess.nmamit;
 
+import chess.nmamit.network.NetworkGame;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -38,7 +40,7 @@ public class Main {
         playnetwork.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                JOptionPane.showMessageDialog(mainframe, "This feature isn't available yet.");
+                new NetworkGame();
             }
         });
 

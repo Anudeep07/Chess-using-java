@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Array;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import static chess.nmamit.Board.*;
@@ -17,10 +17,10 @@ import static chess.nmamit.Board.*;
  */
 
 
-public class Cell implements ActionListener {
+public class Cell implements ActionListener, Serializable {
 
-    JButton cellbutton;
-    Piece cellpiece;
+    public JButton cellbutton;
+    public Piece cellpiece;
     Coordinates cellposition;
     Colour cellcolour;
     public ArrayList<Coordinates> possiblecoordinates;
@@ -46,7 +46,7 @@ public class Cell implements ActionListener {
         jp.add(cellbutton);
     }
 
-    void setPiece(Pieces P, Colour c) {
+    public void setPiece(Pieces P, Colour c) {
 
             switch(P) {
                 case PAWN:
@@ -90,10 +90,11 @@ public class Cell implements ActionListener {
 
     void setImage(String S) {
 
-        if(cellpiece.getPieceImage() != null)
+        if(cellpiece.getPieceImage() != null) {
             cellbutton.setIcon(cellpiece.getPieceImage());
-        else
-            cellbutton.setText(S);
+            cellbutton.setDisabledIcon(cellpiece.getPieceImage());
+        }
+
     }
 
 
@@ -125,7 +126,10 @@ public class Cell implements ActionListener {
                     endGame();
                 }
 
-                changeTurn();
+                if(!networkmode)    //change turn only if its not network mode
+                    changeTurn();
+
+
             } else {
 
                 unhighlightPreviousPressed(this);
@@ -134,10 +138,7 @@ public class Cell implements ActionListener {
                     makeSelectedCellHighlighted(this);
                 }
             }
-
         }
-
-
     }
 
     public int getCellRow() {
@@ -190,6 +191,13 @@ public class Cell implements ActionListener {
     void removePieceAndAdd() {   //removes piece from highlighted cell and adds it to selected cell
 
         //removing piece from highlightedcell
+        ArrayList<Coordinates> movedcells = new ArrayList<Coordinates>();
+
+        movedcells.add(highlightedcell.cellposition);
+        movedcells.add(this.cellposition);
+
+        if(networkmode)
+            sendMoveOnNetwork(movedcells);
 
         highlightedcell.cellbutton.setIcon(null);   //removes icon from highlightedcell
 
