@@ -145,10 +145,18 @@ public class Host implements Game {
                     movedcells = (ArrayList<Coordinates>) input.readObject();
                     updateBoard(movedcells);
 
+                    if(movedcells == null)
+                    {
+                        JOptionPane.showMessageDialog(boardframe, "You lost! Please try again!");
+
+                        closeConnections();
+                        System.exit(0);         //because someone has won, no need to continue the game
+                    }
+
                 } catch (ClassNotFoundException classnotfoundexception) {
                     classnotfoundexception.printStackTrace();
                 } catch (EOFException eofexception) {
-                    //this is normal execution (game has been terminated on the host side) this happens if host won the game
+                    //this is normal execution (game has been terminated on the client side) this happens if client won the game
                     JOptionPane.showMessageDialog(boardframe, "You lost! Please try again!");
 
                     closeConnections();
@@ -202,7 +210,11 @@ public class Host implements Game {
                         JOptionPane.showMessageDialog(null, "Congratulations! You(white) win!");
                     else
                         JOptionPane.showMessageDialog(null,"Congratulations! You(black) win!");
-
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     try {
                         output.writeObject(null);
                     } catch (IOException e) {

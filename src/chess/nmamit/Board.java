@@ -104,6 +104,15 @@ public class Board {
 
         originalcell.cellbutton.setIcon(null);   //removes icon from highlightedcell
 
+        //if selected cell is king (some piece removes king), then return colour that won the game
+        if(newcell.cellpiece != null && newcell.cellpiece.piecename == Pieces.KING ) {
+            newcell.cellbutton.setIcon(originalcell.cellpiece.getPieceImage());
+            if(newcell.cellpiece.piececolour == Colour.WHITE)
+                return Colour.BLACK;
+            else
+                return Colour.WHITE;
+
+        }
 
         originalcell.possiblecoordinates = null;
 
@@ -112,14 +121,6 @@ public class Board {
 
         originalcell.cellpiece = null;
 
-        //if selected cell is king (some piece removes king), then return colour that won the game
-        if(newcell.cellpiece != null && newcell.cellpiece.piecename == Pieces.KING ) {
-            if(newcell.cellpiece.piececolour == Colour.WHITE)
-                return Colour.BLACK;
-            else
-                return Colour.WHITE;
-
-        }
         return Colour.NONE;
     }
 

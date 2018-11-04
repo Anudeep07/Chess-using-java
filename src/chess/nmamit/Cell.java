@@ -123,6 +123,13 @@ public class Cell implements ActionListener, Serializable {
                 removePieceAndAdd();
 
                 if(kingdead != Colour.NONE) {
+
+                    if(networkmode)
+                    {
+                        sendMoveOnNetwork(null);
+                        System.exit(0);
+                    }
+
                     endGame();
                 }
 

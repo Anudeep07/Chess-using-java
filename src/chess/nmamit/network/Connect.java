@@ -145,6 +145,15 @@ public class Connect implements Game {
                 try {
 
                     movedcells = (ArrayList<Coordinates>) input.readObject();
+
+                    if(movedcells == null)
+                    {
+                        JOptionPane.showMessageDialog(boardframe, "You lost! Please try again!");
+
+                        closeConnections();
+                        System.exit(0);         //because someone has won, no need to continue the game
+                    }
+
                     updateBoard(movedcells);
 
 
@@ -182,6 +191,11 @@ public class Connect implements Game {
                         JOptionPane.showMessageDialog(null, "Congratulations! You(white) win!");
                     else
                         JOptionPane.showMessageDialog(null,"Congratulations! You(black) win!");
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
 
                     try {
                         output.writeObject(null);
