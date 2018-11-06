@@ -9,9 +9,9 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.net.*;
 import java.util.ArrayList;
+import java.util.Enumeration;
 
 import static chess.nmamit.Board.updateBoardFromNetwork;
 public class Host implements Game {
@@ -81,22 +81,30 @@ public class Host implements Game {
     }
 
     public void createConnection() throws IOException{
-      /*  JDialog createconn = new JDialog();
 
-        createconn.setTitle("Waiting");
-        createconn.setSize(200,100);
-        createconn.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        createconn.setModal(true);
-        createconn.setResizable(false);
+        String ip = "";
 
-        JLabel message = new JLabel("Waiting for connection...");
+        for (final Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces(); interfaces.hasMoreElements(); ) {
+            final NetworkInterface cur = interfaces.nextElement();
 
-        createconn.add(message, BorderLayout.CENTER);
+            if (cur.isLoopback()) {
+                continue;
+            }
 
-        createconn.setVisible(true);
-*/
+            System.out.println("interface " + cur.getName());
 
-        JOptionPane.showMessageDialog(boardframe,"SERVER: Waiting for connection...");
+            for (final InterfaceAddress addr : cur.getInterfaceAddresses()) {
+                final InetAddress inet_addr = addr.getAddress();
+
+                if (!(inet_addr instanceof Inet4Address)) {
+                    continue;
+                }
+
+                ip += inet_addr.getHostAddress() + "\n";
+            }
+        }
+
+        JOptionPane.showMessageDialog(boardframe,"SERVER IP: " + ip);
         connection = server.accept();
         JOptionPane.showMessageDialog(boardframe,"SERVER: Successfully connected to " + connection.getInetAddress().getHostAddress());
       //  createconn.dispose();

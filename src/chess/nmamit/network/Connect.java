@@ -47,6 +47,9 @@ public class Connect implements Game {
     }
 
     private void createAndShowGUI(String clientname) {
+
+
+
         boardframe = new JDialog();
         clientnetworkturn = Colour.WHITE;                                                                     //turn = white means, its white's turn to play and not turn of client
 
@@ -58,7 +61,6 @@ public class Connect implements Game {
 
         player = new Player(clientname, Colour.BLACK,this);                             //this indicates client's piece colour is black
         // board = new Board();
-        serverip = "127.0.0.1";
 
         boardframe.add(player.playerpanel, BorderLayout.PAGE_START);
         // boardframe.add(board.boardpanel, BorderLayout.CENTER);
@@ -94,9 +96,8 @@ public class Connect implements Game {
 
         } catch (IOException e) {
             //i/o error when opening socket
-            e.printStackTrace();
-        } finally {
-            closeConnections();
+            JOptionPane.showMessageDialog(boardframe,"Connection failed!","Error", JOptionPane.ERROR_MESSAGE);
+            boardframe.dispose();
         }
     }
 
@@ -106,8 +107,10 @@ public class Connect implements Game {
 
     public void createConnection() throws IOException {
 
-        connection = new Socket(serverip,6789);
-        JOptionPane.showMessageDialog(boardframe,"CLIENT: Successfully connected to " + connection.getInetAddress().getHostAddress());
+            serverip = JOptionPane.showInputDialog("Enter the IP address: ");
+            connection = new Socket(serverip,6789);
+            JOptionPane.showMessageDialog(boardframe,"CLIENT: Successfully connected to " + connection.getInetAddress().getHostAddress());
+
     }
 
     public void createStreams() throws IOException {
