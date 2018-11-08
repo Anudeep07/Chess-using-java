@@ -52,7 +52,6 @@ public class Host implements Game {
         boardframe.setSize(800,850);
         boardframe.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         boardframe.setModal(true);
-        boardframe.setResizable(false);
 
         player = new Player(hostname, Colour.WHITE,this);
         //board = new Board(output);
@@ -165,8 +164,6 @@ public class Host implements Game {
                 } catch (ClassNotFoundException classnotfoundexception) {
                     classnotfoundexception.printStackTrace();
                 } catch (EOFException eofexception) {
-                    //this is normal execution (game has been terminated on the client side) this happens if client won the game
-                    JOptionPane.showMessageDialog(boardframe, "You lost! Please try again!");
 
                     closeConnections();
                     System.exit(0);         //because someone has won, no need to continue the game
@@ -216,9 +213,9 @@ public class Host implements Game {
                 if(won != Colour.NONE) {
 
                     if(won == Colour.WHITE)
-                        JOptionPane.showMessageDialog(null, "Congratulations! You(white) win!");
+                        JOptionPane.showMessageDialog(null, "White wins!");
                     else
-                        JOptionPane.showMessageDialog(null,"Congratulations! You(black) win!");
+                        JOptionPane.showMessageDialog(null,"Black wins!");
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {

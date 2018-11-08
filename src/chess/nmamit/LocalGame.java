@@ -25,7 +25,6 @@ public class LocalGame implements Game, Serializable {
         boardframe.setSize(800,900);
         boardframe.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         boardframe.setModal(true);
-        boardframe.setResizable(false);
 
         player1 = new Player(p1, Colour.WHITE, this);
         player2 = new Player(p2,Colour.BLACK, this);

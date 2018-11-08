@@ -61,10 +61,10 @@ public class NetworkGame {
     }
 
     private void hostPressed() {
-        Host h = new Host("Anudeep");             //by default white for now
+        Host h = new Host("Host");             //by default white for now
     }
 
     private void connectPressed() {
-        Connect c = new Connect("Akshay");        //by default black for now
+        Connect c = new Connect("Client");        //by default black for now
     }
 }

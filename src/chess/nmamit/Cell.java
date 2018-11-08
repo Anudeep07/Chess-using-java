@@ -131,7 +131,6 @@ public class Cell implements ActionListener, Serializable {
                     if(networkmode)
                     {
                         sendMoveOnNetwork(null);
-                        System.exit(0);
                     }
 
                     endGame();
@@ -313,6 +312,7 @@ public class Cell implements ActionListener, Serializable {
         } else {
             JOptionPane.showMessageDialog(null, "White wins!");
         }
+
         System.exit(0);
     }
 }

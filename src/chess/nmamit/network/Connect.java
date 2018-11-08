@@ -57,7 +57,6 @@ public class Connect implements Game {
         boardframe.setSize(800,850);
         boardframe.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         boardframe.setModal(true);
-        boardframe.setResizable(false);
 
         player = new Player(clientname, Colour.BLACK,this);                             //this indicates client's piece colour is black
         // board = new Board();
@@ -191,9 +190,9 @@ public class Connect implements Game {
                 if(won != Colour.NONE) {
 
                     if(won == Colour.WHITE)
-                        JOptionPane.showMessageDialog(null, "Congratulations! You(white) win!");
+                        JOptionPane.showMessageDialog(null, "White wins!");
                     else
-                        JOptionPane.showMessageDialog(null,"Congratulations! You(black) win!");
+                        JOptionPane.showMessageDialog(null,"Black wins!");
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
