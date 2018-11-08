@@ -115,16 +115,17 @@ public class Host implements Game {
         output = new ObjectOutputStream(connection.getOutputStream());
         output.flush();
 
+        input = new ObjectInputStream(connection.getInputStream());
+
         createBoard();
 
-        input = new ObjectInputStream(connection.getInputStream());
     }
 
     private void createBoard() {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                board = new Board(output,true);
+                board = new Board(input, output,true);
                 boardframe.add(board.boardpanel, BorderLayout.CENTER);
                 boardframe.validate();
             }

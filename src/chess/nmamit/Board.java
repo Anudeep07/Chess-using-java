@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
 
+
 import static chess.nmamit.network.Connect.modifyClientNetworkTurn;
 import static chess.nmamit.network.Host.modifyHostNetworkTurn;
 import static java.lang.Math.abs;
@@ -42,6 +43,7 @@ public class Board {
     public static boolean networkmode;
     public static boolean ishost;
     ObjectOutputStream output;
+    ObjectInputStream input;
 
 
     public Board() {
@@ -66,8 +68,9 @@ public class Board {
         boardpanel.setVisible(true);
     }
 
-    public Board(ObjectOutputStream output, boolean host) {
+    public Board(ObjectInputStream input, ObjectOutputStream output, boolean host) {
         this();
+        this.input = input;
         this.output = output;
         networkmode = true;
 
@@ -77,6 +80,23 @@ public class Board {
         } else {
             ishost = false;
             turn = Colour.BLACK;
+        }
+    }
+
+    public static void sendMoveOnNetwork(ArrayList<Coordinates> movedcells, Pieces promotedpiece) {
+        try {
+            boardref.output.flush();
+            boardref.output.writeObject(movedcells);
+            boardref.output.writeObject(promotedpiece);
+
+            if(ishost) {
+                modifyHostNetworkTurn(Colour.BLACK);
+            } else {
+                modifyClientNetworkTurn(Colour.WHITE);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -96,32 +116,82 @@ public class Board {
         }
     }
 
+    private static boolean isPromo(Cell start) {
+        if (start.cellpiece.piecename == Pieces.PAWN) {
+            if (start.cellpiece.piececolour == Colour.WHITE)
+                if (start.cellposition.x == 1)
+                    return true;
+                else
+                    return false;
+
+            else if (start.cellposition.x == 6)
+                return true;
+            else
+                return false;
+        }
+        else
+            return false;
+    }
+
     public static Colour updateBoardFromNetwork(Coordinates originalcoordinates, Coordinates newcoordinates) {
 
         Cell originalcell = cells[originalcoordinates.x][originalcoordinates.y];
         Cell newcell = cells[newcoordinates.x][newcoordinates.y];
 
+        if(isPromo(originalcell)) {
+            try {
+                Pieces promotedpiece = (Pieces) boardref.input.readObject();
 
-        originalcell.cellbutton.setIcon(null);   //removes icon from highlightedcell
+                originalcell.cellbutton.setIcon(null);   //removes icon from highlightedcell
+                if(newcell.cellpiece != null && newcell.cellpiece.piecename == Pieces.KING ) {
+                    newcell.cellbutton.setIcon(originalcell.cellpiece.getPieceImage());
+                    if(newcell.cellpiece.piececolour == Colour.WHITE)
+                        return Colour.BLACK;
+                    else
+                        return Colour.WHITE;
 
-        //if selected cell is king (some piece removes king), then return colour that won the game
-        if(newcell.cellpiece != null && newcell.cellpiece.piecename == Pieces.KING ) {
-            newcell.cellbutton.setIcon(originalcell.cellpiece.getPieceImage());
-            if(newcell.cellpiece.piececolour == Colour.WHITE)
-                return Colour.BLACK;
-            else
-                return Colour.WHITE;
+                }
 
+                originalcell.possiblecoordinates = null;
+
+                newcell.setPiece(promotedpiece, originalcell.cellpiece.piececolour);    //sets piece in selected cell
+                newcell.possiblecoordinates = newcell.cellpiece.possibleMoves(newcell);
+
+                originalcell.cellpiece = null;
+
+                return Colour.NONE;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        } else {
+            originalcell.cellbutton.setIcon(null);   //removes icon from highlightedcell
+
+            //if selected cell is king (some piece removes king), then return colour that won the game
+            if(newcell.cellpiece != null && newcell.cellpiece.piecename == Pieces.KING ) {
+                newcell.cellbutton.setIcon(originalcell.cellpiece.getPieceImage());
+                if(newcell.cellpiece.piececolour == Colour.WHITE)
+                    return Colour.BLACK;
+                else
+                    return Colour.WHITE;
+
+            }
+
+            originalcell.possiblecoordinates = null;
+
+            newcell.setPiece(originalcell.cellpiece.piecename, originalcell.cellpiece.piececolour);    //sets piece in selected cell
+            newcell.possiblecoordinates = newcell.cellpiece.possibleMoves(newcell);
+
+            originalcell.cellpiece = null;
+
+            return Colour.NONE;
         }
 
-        originalcell.possiblecoordinates = null;
-
-        newcell.setPiece(originalcell.cellpiece.piecename, originalcell.cellpiece.piececolour);    //sets piece in selected cell
-        newcell.possiblecoordinates = newcell.cellpiece.possibleMoves(newcell);
-
-        originalcell.cellpiece = null;
 
         return Colour.NONE;
+
     }
 
     void drawBoardAndAddToPanel(Cell cells[][]) {

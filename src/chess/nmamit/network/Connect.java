@@ -116,16 +116,16 @@ public class Connect implements Game {
     public void createStreams() throws IOException {
         output = new ObjectOutputStream(connection.getOutputStream());
         output.flush();
+        input = new ObjectInputStream(connection.getInputStream());
 
         createBoard();
 
-        input = new ObjectInputStream(connection.getInputStream());
     }
     private void createBoard() {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                board = new Board(output,false);
+                board = new Board(input, output,false);
                 boardframe.add(board.boardpanel, BorderLayout.CENTER);
                 boardframe.validate();
             }

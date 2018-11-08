@@ -52,7 +52,7 @@ public class Queen extends Piece implements Serializable {
                 break;
         }
         colptr = cellcol + 1;
-        while (colptr <= 7 && isEmpty(cellrow, colptr)) {
+        while (colptr <= 7 ) {
             if (isEmpty(cellrow, colptr)) {
                 possiblecoordinates.add(new Coordinates(cellrow, colptr));
                 colptr++;

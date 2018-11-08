@@ -120,7 +120,11 @@ public class Cell implements ActionListener, Serializable {
 
             if(withinPossibleCoordinates()) {
 
-                removePieceAndAdd();
+
+                if (!ispromo())
+                    removePieceAndAdd();
+                else
+                    removePieceAndPromote();
 
                 if(kingdead != Colour.NONE) {
 
@@ -195,6 +199,23 @@ public class Cell implements ActionListener, Serializable {
             return false;
     }
 
+    boolean ispromo(){
+        if (highlightedcell.cellpiece.piecename == Pieces.PAWN) {
+            if (highlightedcell.cellpiece.piececolour == Colour.WHITE)
+                if (highlightedcell.cellposition.x == 1)
+                    return true;
+                else
+                    return false;
+
+            else if (highlightedcell.cellposition.x == 6)
+                return true;
+            else
+                return false;
+        }
+        else
+            return false;
+    }
+
     void removePieceAndAdd() {   //removes piece from highlighted cell and adds it to selected cell
 
         //removing piece from highlightedcell
@@ -228,6 +249,61 @@ public class Cell implements ActionListener, Serializable {
 
         unhighlightPreviousPressed(this);
     }
+
+    void removePieceAndPromote() {   //removes piece from highlighted cell and adds it to selected cell
+
+        ArrayList<Coordinates> movedcells = new ArrayList<Coordinates>();
+
+        movedcells.add(highlightedcell.cellposition);
+        movedcells.add(this.cellposition);
+
+
+        highlightedcell.cellbutton.setIcon(null);   //removes icon from highlightedcell
+
+        if(this.cellpiece != null && this.cellpiece.piecename == Pieces.KING ) {
+            if(this.cellpiece.piececolour == Colour.WHITE)
+                kingdead = Colour.WHITE;
+            else
+                kingdead = Colour.BLACK;
+        }
+
+        for(Coordinates coordinates : highlightedcell.possiblecoordinates) {    //this will remove possiblecells' background
+            cells[coordinates.x][coordinates.y].cellbutton.setBorder(BorderFactory.createEmptyBorder());
+        }
+        highlightedcell.possiblecoordinates = null;
+
+        Pieces promotedPiece = getPromopiece();
+        setPiece(promotedPiece, turn);    //sets piece in selected cell
+        possiblecoordinates = cellpiece.possibleMoves(this);
+
+        highlightedcell.cellpiece = null;
+
+        unhighlightPreviousPressed(this);
+
+        if(networkmode)
+            sendMoveOnNetwork(movedcells, promotedPiece);
+    }
+
+    Pieces getPromopiece(){
+        ImageIcon img ;
+        if (turn == Colour.BLACK) {
+            img = new ImageIcon("img/BCapture.png");
+        }
+        else{
+            img = new ImageIcon("img/BCapture.png");
+        }
+        String[] options = {"Queen", "Bishop","Knight", "Rook"};
+        int x = JOptionPane.showOptionDialog(null,img,"Pawn Promotion",JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,null,options,options[0]);
+        System.out.println(x);
+        switch (x){
+            case 0: return Pieces.QUEEN;
+            case 1: return  Pieces.KNIGHT;
+            case 2: return Pieces.BISHOP;
+            case 3: return Pieces.ROOK;
+        }
+        return null;
+    }
+
 
     void endGame() {
         if(kingdead == Colour.WHITE) {
