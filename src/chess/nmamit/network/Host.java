@@ -16,6 +16,7 @@ import java.util.Enumeration;
 import static chess.nmamit.Board.updateBoardFromNetwork;
 public class Host implements Game {
 
+    String name;
     JDialog boardframe;
     Player player;
     Board board;
@@ -47,6 +48,7 @@ public class Host implements Game {
     private void createAndShowGUI(String hostname) {
         boardframe = new JDialog();
         hostnetworkturn = Colour.WHITE;
+        name = hostname;
 
         boardframe.setTitle("Host");
         boardframe.setSize(800,850);
@@ -55,7 +57,7 @@ public class Host implements Game {
 
         player = new Player(hostname, Colour.WHITE,this);
         //board = new Board(output);
-
+        player.disableDraw();
         boardframe.add(player.playerpanel, BorderLayout.PAGE_END);
 //        boardframe.add(board.boardpanel, BorderLayout.CENTER);
         boardframe.setVisible(true);
@@ -155,7 +157,7 @@ public class Host implements Game {
 
                     if(movedcells == null)
                     {
-                        JOptionPane.showMessageDialog(boardframe, "You lost! Please try again!");
+                        JOptionPane.showMessageDialog(boardframe, "You won! Congratulations!");
 
                         closeConnections();
                         System.exit(0);         //because someone has won, no need to continue the game
@@ -199,6 +201,25 @@ public class Host implements Game {
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         //what to do when resign and draw is pressed
+        String command = actionEvent.getActionCommand();
+
+        if(command.equals(name + " Resign")) {
+            int option = JOptionPane.showConfirmDialog(boardframe, "Are you sure you wish to resign the game?", "Confirm Resign", JOptionPane.YES_NO_OPTION);
+            if(option == JOptionPane.YES_OPTION) {
+                if(output == null) {
+                    JOptionPane.showMessageDialog(boardframe, "Not connected to any game!", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    try {
+                        output.writeObject(null);
+                        JOptionPane.showMessageDialog(boardframe, "You resigned the game!");
+                        closeConnections();
+                        System.exit(0);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
     }
 
     private void updateBoard(ArrayList<Coordinates> movedcells) {

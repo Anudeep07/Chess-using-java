@@ -42,5 +42,9 @@ public class Player implements Serializable {
         playerpanel.setVisible(true);
     }
 
+    public void disableDraw() {
+        playerpanel.remove(issuedraw);
+    }
+
 
 }
