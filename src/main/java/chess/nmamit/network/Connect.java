@@ -67,7 +67,7 @@ public class Connect implements Game {
         boardframe.setVisible(true);
     }
 
-    private void setEnableRec(Component container, boolean enable){
+    private void setEnableRec(final Component container,final boolean enable){
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -178,7 +178,7 @@ public class Connect implements Game {
         } while(true);    //condition just for now
     }
 
-    private void updateBoard(ArrayList<Coordinates> movedcells) {
+    private void updateBoard(final ArrayList<Coordinates> movedcells) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {

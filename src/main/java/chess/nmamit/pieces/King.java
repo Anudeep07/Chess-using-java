@@ -50,6 +50,21 @@ public class King extends Piece implements Serializable {
                     possiblecoordinates.add(new Coordinates(cellrow-1,cellcol+1));
             }
         }
+
+        //same row as king
+
+        if(cellcol-1 >= 0) {
+            if(isEmpty(cellrow,cellcol-1) || !sameColourPiece(c,cellrow,cellcol-1))
+                possiblecoordinates.add(new Coordinates(cellrow,cellcol-1));
+        }
+
+        if(cellcol+1 < 8) {
+            if(isEmpty(cellrow,cellcol+1) || !sameColourPiece(c,cellrow,cellcol+1))
+                possiblecoordinates.add(new Coordinates(cellrow,cellcol+1));
+        }
+
+
+
         if(cellrow+1 < 8) {
             //row below king
             if(cellcol-1 >= 0) {
@@ -64,18 +79,6 @@ public class King extends Piece implements Serializable {
                 if(isEmpty(cellrow+1,cellcol+1) || !sameColourPiece(c,cellrow+1,cellcol+1))
                     possiblecoordinates.add(new Coordinates(cellrow+1,cellcol+1));
             }
-        }
-
-        //same row as king
-
-        if(cellcol-1 >= 0) {
-            if(isEmpty(cellrow,cellcol-1) || !sameColourPiece(c,cellrow,cellcol-1))
-                possiblecoordinates.add(new Coordinates(cellrow,cellcol-1));
-        }
-
-        if(cellcol+1 < 8) {
-            if(isEmpty(cellrow,cellcol+1) || !sameColourPiece(c,cellrow,cellcol+1))
-                possiblecoordinates.add(new Coordinates(cellrow,cellcol+1));
         }
 
 

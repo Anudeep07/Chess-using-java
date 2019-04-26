@@ -7,7 +7,7 @@ package chess.nmamit;
 import java.io.Serializable;
 
 public class Coordinates implements Serializable {
-    int x,y;
+    public int x,y;
 
     public Coordinates(int x, int y) {
         this.x = x;
@@ -20,5 +20,19 @@ public class Coordinates implements Serializable {
         } else {
             return Colour.BLACK;
         }
+    }
+
+
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if(obj == null)
+            return false;
+        if (this.getClass() != obj.getClass())
+            return false;
+
+        Coordinates coordinates = (Coordinates) obj;
+        return this.x == coordinates.x && this.y == coordinates.y;
     }
 }

@@ -36,7 +36,7 @@ public class Board {
     static JButton highlightedbutton;
     static Cell highlightedcell;
     static Color originalcellcolour;
-    static Cell cells[][];
+    public static Cell[][] cells;
     static Cell whitekingcell;
     static Cell blackkingcell;
     public static Colour kingdead;

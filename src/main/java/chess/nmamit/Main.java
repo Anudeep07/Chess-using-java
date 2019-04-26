@@ -33,7 +33,7 @@ public class Main {
         playlocal.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                Local newlocalgame = new Local();
+                new Local();
             }
         });
 
@@ -64,7 +64,7 @@ public class Main {
         mainframe.setVisible(true);
     }
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -73,7 +73,7 @@ public class Main {
         });
     }
 
-    void createAndAddButtons() {
+    private void createAndAddButtons() {
 
         localpanel = new JPanel();
         networkpanel = new JPanel();

@@ -178,7 +178,7 @@ public class Host implements Game {
         } while(true);    //condition just for now (game is terminated when king is dead)
     }
 
-    private void setEnableRec(Component container, boolean enable){
+    private void setEnableRec(final Component container,final boolean enable){
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -201,7 +201,7 @@ public class Host implements Game {
         //what to do when resign and draw is pressed
     }
 
-    private void updateBoard(ArrayList<Coordinates> movedcells) {
+    private void updateBoard(final ArrayList<Coordinates> movedcells) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
